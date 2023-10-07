@@ -29,7 +29,15 @@ const HeadingPlugin = (): JSX.Element => {
     });
   };
 
-  const headingTypes = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+  const headingTypes = [
+    { text: 'Título...', tag: 'p' },
+    { text: 'Título 1', tag: 'h1' },
+    { text: 'Título 2', tag: 'h2' },
+    { text: 'Título 3', tag: 'h3' },
+    { text: 'Título 4', tag: 'h4' },
+    { text: 'Título 5', tag: 'h5' },
+    { text: 'Título 6', tag: 'h6' },
+  ];
   return (
     <SelectWrapper
       onChange={(evt) => {
@@ -41,14 +49,10 @@ const HeadingPlugin = (): JSX.Element => {
       }}
       className="rich-editor-select"
     >
-      {headingTypes.map((htype) => {
+      {headingTypes.map(({ text, tag }) => {
         return (
-          <option
-            value={htype}
-            key={htype}
-            className={`rich-editor-option-${htype}`}
-          >
-            {htype}
+          <option value={tag} key={tag} className={`rich-editor-option-${tag}`}>
+            {text}
           </option>
         );
       })}
@@ -57,4 +61,29 @@ const HeadingPlugin = (): JSX.Element => {
 };
 export default HeadingPlugin;
 
-const SelectWrapper = styled.select``;
+const SelectWrapper = styled.select`
+  .rich-editor-option-h1 {
+    font-size: 1.5rem;
+    height: 1rem;
+  }
+  .rich-editor-option-h2 {
+    font-size: 1.4rem;
+    height: 1rem;
+  }
+  .rich-editor-option-h3 {
+    font-size: 1.3rem;
+    height: 1rem;
+  }
+  .rich-editor-option-h4 {
+    font-size: 1.2rem;
+    height: 1rem;
+  }
+  .rich-editor-option-h5 {
+    font-size: 1.1rem;
+    height: 1rem;
+  }
+  .rich-editor-option-h6 {
+    font-size: 1rem;
+    height: 1rem;
+  }
+`;

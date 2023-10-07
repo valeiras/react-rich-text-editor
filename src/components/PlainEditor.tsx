@@ -19,7 +19,7 @@ const PlainEditor = (): JSX.Element => {
   };
 
   return (
-    <Wrapper>
+    <Wrapper className="PlainEditor">
       <LexicalComposer initialConfig={initialConfig}>
         <PlainTextPlugin
           contentEditable={<ContentEditable className="content-editable" />}

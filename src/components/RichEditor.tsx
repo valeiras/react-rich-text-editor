@@ -35,7 +35,7 @@ const RichEditor = (): JSX.Element => {
   };
 
   return (
-    <Wrapper>
+    <Wrapper className="RichEditor">
       <LexicalComposer initialConfig={initialConfig}>
         <div className="toolbar">
           <HeadingPlugin />
