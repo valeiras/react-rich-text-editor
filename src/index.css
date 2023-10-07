@@ -47,8 +47,9 @@ body {
   justify-content: center;
   width: 100vw;
   min-height: 100vh;
-  background-color: #3e3877;
+  background-color: white;
   position: relative;
+  font-family: 'Noto Sans', Helvetica, sans-serif;
 }
 
 .toolbar-btn {
@@ -63,4 +64,5 @@ body {
 .rich-editor-select {
   padding: var(--default-padding);
   border-radius: var(--border-radius);
+  font-family: 'Noto Sans', Helvetica, sans-serif;
 }

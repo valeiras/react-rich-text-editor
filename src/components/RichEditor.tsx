@@ -56,7 +56,7 @@ const Wrapper = styled.div`
   position: relative;
 
   --editor-padding: 1rem;
-  --toolbar-height: 2rem;
+  --toolbar-height: 2.2rem;
 
   .content-editable {
     outline: none;
