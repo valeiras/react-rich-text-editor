@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 // import { PlainEditor } from './components';
-import { RichEditor } from './components';
-// import { ContentTable } from './components';
+// import { RichEditor } from './components';
+import { ContentTable } from './components';
 
 function App(): JSX.Element {
   return (
     <Wrapper className="App">
       {/* <PlainEditor /> */}
-      <RichEditor />
-      {/* <ContentTable /> */}
+      {/* <RichEditor /> */}
+      <ContentTable />
     </Wrapper>
   );
 }

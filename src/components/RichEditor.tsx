@@ -3,10 +3,19 @@ import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+import { HeadingNode } from '@lexical/rich-text';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
+import HeadingPlugin from './customPlugins/HeadingPlugin';
 
 const theme = {
+  heading: {
+    h1: 'rich-editor-h1',
+    h2: 'rich-editor-h2',
+    h3: 'rich-editor-h3',
+    h4: 'rich-editor-h4',
+    h5: 'rich-editor-h5',
+    h6: 'rich-editor-h6',
+  },
   text: {
     bold: 'rich-editor-bold',
     italic: 'rich-editor-italic',
@@ -22,22 +31,21 @@ const RichEditor = (): JSX.Element => {
     namespace: 'MyEditor',
     theme,
     onError,
+    nodes: [HeadingNode],
   };
 
   return (
     <Wrapper>
       <LexicalComposer initialConfig={initialConfig}>
+        <div className="toolbar">
+          <HeadingPlugin />
+        </div>
         <RichTextPlugin
           contentEditable={<ContentEditable className="content-editable" />}
-          placeholder={<div className="placeholder">Enter some text...</div>}
+          placeholder={<div className="placeholder"></div>}
           ErrorBoundary={LexicalErrorBoundary}
         />
         <HistoryPlugin />
-        <OnChangePlugin
-          onChange={(editorState) => {
-            console.log(editorState);
-          }}
-        />
       </LexicalComposer>
     </Wrapper>
   );
@@ -48,6 +56,7 @@ const Wrapper = styled.div`
   position: relative;
 
   --editor-padding: 1rem;
+  --toolbar-height: 2rem;
 
   .content-editable {
     outline: none;
@@ -61,7 +70,7 @@ const Wrapper = styled.div`
 
   .placeholder {
     position: absolute;
-    top: var(--editor-padding);
+    top: calc(var(--toolbar-height) + var(--editor-padding));
     left: var(--editor-padding);
     color: #aaa;
   }
@@ -71,5 +80,28 @@ const Wrapper = styled.div`
   }
   .rich-editor-italic {
     font-style: italic;
+  }
+
+  .toolbar {
+    height: var(--toolbar-height);
+  }
+
+  .rich-editor-h1 {
+    font-size: 3rem;
+  }
+  .rich-editor-h2 {
+    font-size: 2.5rem;
+  }
+  .rich-editor-h3 {
+    font-size: 2rem;
+  }
+  .rich-editor-h4 {
+    font-size: 1.8rem;
+  }
+  .rich-editor-h5 {
+    font-size: 1.6rem;
+  }
+  .rich-editor-h6 {
+    font-size: 1.4rem;
   }
 `;
