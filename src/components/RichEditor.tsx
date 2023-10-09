@@ -4,8 +4,10 @@ import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { HeadingNode } from '@lexical/rich-text';
+import { ListPlugin } from '@lexical/react/LexicalListPlugin';
+import { ListItemNode, ListNode } from '@lexical/list';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
-import HeadingPlugin from './customPlugins/HeadingPlugin';
+import ToolbarPlugin from './customPlugins/ToolbarPlugin';
 
 const theme = {
   heading: {
@@ -31,15 +33,14 @@ const RichEditor = (): JSX.Element => {
     namespace: 'MyEditor',
     theme,
     onError,
-    nodes: [HeadingNode],
+    nodes: [HeadingNode, ListNode, ListItemNode],
   };
 
   return (
     <Wrapper className="RichEditor">
       <LexicalComposer initialConfig={initialConfig}>
-        <div className="toolbar">
-          <HeadingPlugin />
-        </div>
+        <ToolbarPlugin />
+        <ListPlugin />
         <RichTextPlugin
           contentEditable={<ContentEditable className="content-editable" />}
           placeholder={<div className="placeholder"></div>}
@@ -82,10 +83,6 @@ const Wrapper = styled.div`
     font-style: italic;
   }
 
-  .toolbar {
-    height: var(--toolbar-height);
-  }
-
   .rich-editor-h1 {
     font-size: 3rem;
   }
@@ -103,5 +100,10 @@ const Wrapper = styled.div`
   }
   .rich-editor-h6 {
     font-size: 1.4rem;
+  }
+
+  ol,
+  ul {
+    list-style-position: inside;
   }
 `;

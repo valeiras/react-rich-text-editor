@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
   $createParagraphNode,
   $getSelection,
@@ -7,8 +6,13 @@ import {
 } from 'lexical';
 import { $createHeadingNode, HeadingTagType } from '@lexical/rich-text';
 import { $setBlocksType } from '@lexical/selection';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
-const HeadingPlugin = (): JSX.Element => {
+const HeadingToolbarPlugin = ({
+  blockType,
+}: {
+  blockType: string;
+}): JSX.Element => {
   const [editor] = useLexicalComposerContext();
 
   const makeSelectionHeading = (headingType: HeadingTagType): void => {
@@ -30,7 +34,7 @@ const HeadingPlugin = (): JSX.Element => {
   };
 
   const headingTypes = [
-    { text: 'Título...', tag: 'p' },
+    { text: 'Párrafo', tag: 'p' },
     { text: 'Título 1', tag: 'h1' },
     { text: 'Título 2', tag: 'h2' },
     { text: 'Título 3', tag: 'h3' },
@@ -38,6 +42,7 @@ const HeadingPlugin = (): JSX.Element => {
     { text: 'Título 5', tag: 'h5' },
     { text: 'Título 6', tag: 'h6' },
   ];
+
   return (
     <SelectWrapper
       onChange={(evt) => {
@@ -48,6 +53,7 @@ const HeadingPlugin = (): JSX.Element => {
         }
       }}
       className="rich-editor-select"
+      value={blockType}
     >
       {headingTypes.map(({ text, tag }) => {
         return (
@@ -59,7 +65,7 @@ const HeadingPlugin = (): JSX.Element => {
     </SelectWrapper>
   );
 };
-export default HeadingPlugin;
+export default HeadingToolbarPlugin;
 
 const SelectWrapper = styled.select`
   .rich-editor-option-h1 {

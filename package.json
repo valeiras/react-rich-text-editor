@@ -10,11 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@lexical/list": "^0.12.2",
     "@lexical/react": "^0.12.2",
     "@lexical/rich-text": "^0.12.2",
     "@lexical/selection": "^0.12.2",
     "@types/styled-components": "^5.1.28",
     "lexical": "^0.12.2",
+    "nanoid": "^5.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "styled-components": "^6.0.8"

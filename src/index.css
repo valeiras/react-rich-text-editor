@@ -22,6 +22,7 @@
   -webkit-text-size-adjust: 100%;
 
   --border-color: #222;
+  --default-border: 1px solid var(--border-color);
   --secondary-font-color: #3e3877;
   --main-bg-color: #fff;
   --light-grey: #f7f7f7;
@@ -57,12 +58,14 @@ body {
   border-radius: var(--border-radius);
   cursor: pointer;
   box-shadow: var(--shadow-1);
-  background-color: #eee;
+  background-color: white;
   font-weight: 700;
+  border: var(--default-border);
 }
 
 .rich-editor-select {
   padding: var(--default-padding);
   border-radius: var(--border-radius);
+  border: var(--default-border);
   font-family: 'Noto Sans', Helvetica, sans-serif;
 }
