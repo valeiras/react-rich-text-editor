@@ -65,7 +65,7 @@ const Wrapper = styled.div`
     width: 500px;
     border: 1px solid black;
     border-radius: var(--border-radius);
-    padding: var(--editor-padding);
+    padding: var(--default-padding) var(--editor-padding);
     background-color: white;
   }
 

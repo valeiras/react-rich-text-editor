@@ -44,7 +44,7 @@ const Wrapper = styled.div`
 
   .row-name {
     padding: 1rem;
-    padding-top: calc(1rem + var(--text-padding));
+    padding-top: calc(1rem + var(--default-padding));
   }
 
   overflow: hidden;

@@ -23,7 +23,7 @@ const PlainEditor = (): JSX.Element => {
       <LexicalComposer initialConfig={initialConfig}>
         <PlainTextPlugin
           contentEditable={<ContentEditable className="content-editable" />}
-          placeholder={<div className="placeholder">Enter some text...</div>}
+          placeholder={<div className="placeholder"></div>}
           ErrorBoundary={LexicalErrorBoundary}
         />
         <HistoryPlugin />
@@ -42,7 +42,8 @@ const Wrapper = styled.div`
     outline: none;
     border: 1px solid black;
     border-radius: var(--border-radius);
-    padding: var(--editor-padding);
+    padding: var(--default-padding);
+    padding-left: var(--editor-padding);
     background-color: white;
   }
 
