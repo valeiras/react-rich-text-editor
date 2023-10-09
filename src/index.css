@@ -60,7 +60,11 @@ body {
   box-shadow: var(--shadow-1);
   background-color: white;
   font-weight: 700;
+  font-size: 1.2rem;
   border: var(--default-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .rich-editor-select {
