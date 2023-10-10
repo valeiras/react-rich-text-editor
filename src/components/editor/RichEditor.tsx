@@ -9,7 +9,7 @@ import { ListItemNode, ListNode } from '@lexical/list';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import ToolbarPlugin from '../plugins/toolbar/ToolbarPlugin';
 import { BannerNode, BannerPlugin } from '../plugins/banner/BannerPlugin';
-import AutoFocusPlugin from '../plugins/AutofocusPlugin';
+import MyAutoFocusPlugin from '../plugins/MyAutoFocusPlugin';
 
 const theme = {
   heading: {
@@ -53,7 +53,7 @@ const RichEditor = (): JSX.Element => {
           ErrorBoundary={LexicalErrorBoundary}
         />
         <HistoryPlugin />
-        <AutoFocusPlugin />
+        <MyAutoFocusPlugin />
       </LexicalComposer>
     </Wrapper>
   );
