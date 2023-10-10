@@ -26,7 +26,7 @@ const StyleDropDown = ({
 
   return (
     <select
-      className="rich-editor-select"
+      className="rich-editor-select narrow-select"
       value={currValue}
       onChange={(evt) => {
         setSelectionPropertyValue(evt.target.value);

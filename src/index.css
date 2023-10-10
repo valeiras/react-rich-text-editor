@@ -87,6 +87,10 @@ body {
   text-overflow: ellipsis;
 }
 
+.rich-editor-select.narrow-select {
+  max-width: 4rem;
+}
+
 .rich-editor-banner {
   background-color: red;
   color: blue;
