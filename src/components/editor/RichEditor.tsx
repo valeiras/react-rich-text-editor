@@ -1,15 +1,15 @@
 import styled from 'styled-components';
+import { HeadingNode } from '@lexical/rich-text';
+import { ListItemNode, ListNode } from '@lexical/list';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { HeadingNode } from '@lexical/rich-text';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
-import { ListItemNode, ListNode } from '@lexical/list';
+import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import ToolbarPlugin from '../plugins/toolbar/ToolbarPlugin';
 import { BannerNode, BannerPlugin } from '../plugins/banner/BannerPlugin';
-import MyAutoFocusPlugin from '../plugins/MyAutoFocusPlugin';
 
 const theme = {
   heading: {
@@ -53,7 +53,7 @@ const RichEditor = (): JSX.Element => {
           ErrorBoundary={LexicalErrorBoundary}
         />
         <HistoryPlugin />
-        <MyAutoFocusPlugin />
+        <AutoFocusPlugin />
       </LexicalComposer>
     </Wrapper>
   );
