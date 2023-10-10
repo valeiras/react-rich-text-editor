@@ -21,7 +21,7 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 
-  --border-color: #222;
+  --border-color: #888;
   --default-border: 1px solid var(--border-color);
   --secondary-font-color: #3e3877;
   --main-bg-color: #fff;
@@ -52,23 +52,45 @@ body {
   font-family: 'Noto Sans', Helvetica, sans-serif;
 }
 
+.toolbar-btn-strip {
+  display: flex;
+  flex-direction: row;
+  gap: 0.1rem;
+}
+
 .toolbar-btn {
-  padding: var(--default-padding);
   border-radius: var(--border-radius);
   cursor: pointer;
-  box-shadow: var(--shadow-1);
-  background-color: white;
-  font-weight: 700;
-  font-size: 1.2rem;
-  border: var(--default-border);
+  background-color: transparent;
+  font-weight: 400;
+  font-size: 1rem;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0.1rem;
+}
+
+.active-btn,
+.toolbar-btn:hover {
+  background-color: var(--dark-grey);
 }
 
 .rich-editor-select {
-  padding: var(--default-padding);
   border-radius: var(--border-radius);
-  border: var(--default-border);
+  border: none;
   font-family: 'Noto Sans', Helvetica, sans-serif;
+  font-size: 1rem;
+  outline: none;
+  background-color: transparent;
+}
+
+.rich-editor-banner {
+  background-color: red;
+  color: blue;
+  margin: 0.5rem;
+  display: flex;
+  width: fit-content;
+  padding: 1rem;
+  border-radius: var(--border-radius);
 }

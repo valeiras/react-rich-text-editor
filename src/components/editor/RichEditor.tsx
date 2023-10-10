@@ -7,7 +7,9 @@ import { HeadingNode } from '@lexical/rich-text';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { ListItemNode, ListNode } from '@lexical/list';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
-import ToolbarPlugin from './customPlugins/ToolbarPlugin';
+import ToolbarPlugin from '../plugins/toolbar/ToolbarPlugin';
+import { BannerNode, BannerPlugin } from '../plugins/banner/BannerPlugin';
+import AutoFocusPlugin from '../plugins/AutofocusPlugin';
 
 const theme = {
   heading: {
@@ -21,7 +23,10 @@ const theme = {
   text: {
     bold: 'rich-editor-bold',
     italic: 'rich-editor-italic',
+    underline: 'rich-editor-underline',
+    strikethrough: 'rich-editor-strikethrough',
   },
+  banner: 'rich-editor-banner',
 };
 
 const onError = (error: Error): void => {
@@ -33,7 +38,7 @@ const RichEditor = (): JSX.Element => {
     namespace: 'MyEditor',
     theme,
     onError,
-    nodes: [HeadingNode, ListNode, ListItemNode],
+    nodes: [HeadingNode, ListNode, ListItemNode, BannerNode],
   };
 
   return (
@@ -41,12 +46,14 @@ const RichEditor = (): JSX.Element => {
       <LexicalComposer initialConfig={initialConfig}>
         <ToolbarPlugin />
         <ListPlugin />
+        <BannerPlugin />
         <RichTextPlugin
           contentEditable={<ContentEditable className="content-editable" />}
           placeholder={<div className="placeholder"></div>}
           ErrorBoundary={LexicalErrorBoundary}
         />
         <HistoryPlugin />
+        <AutoFocusPlugin />
       </LexicalComposer>
     </Wrapper>
   );
@@ -58,12 +65,14 @@ const Wrapper = styled.div`
 
   --editor-padding: 1rem;
   --toolbar-height: 2.2rem;
+  border-radius: var(--border-radius);
+  border: var(--default-border);
+  background-color: white;
 
   .content-editable {
     outline: none;
     min-height: 100px;
     width: 500px;
-    border: 1px solid black;
     border-radius: var(--border-radius);
     padding: var(--default-padding) var(--editor-padding);
     background-color: white;
@@ -81,6 +90,12 @@ const Wrapper = styled.div`
   }
   .rich-editor-italic {
     font-style: italic;
+  }
+  .rich-editor-underline {
+    text-decoration: underline;
+  }
+  .rich-editor-strikethrough {
+    text-decoration: line-through;
   }
 
   .rich-editor-h1 {

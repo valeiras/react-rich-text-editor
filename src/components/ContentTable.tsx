@@ -39,7 +39,7 @@ const Wrapper = styled.div`
   grid-template-columns: auto auto;
   border-radius: var(--border-radius);
 
-  border: 1px solid var(--border-color);
+  border: var(--default-border);
   background-color: var(--main-bg-color);
 
   .row-name {

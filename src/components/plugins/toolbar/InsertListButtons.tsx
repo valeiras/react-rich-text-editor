@@ -9,7 +9,7 @@ import { ReactNode } from 'react';
 
 type ListTag = 'ol' | 'ul';
 
-const ListToolbarPlugin = () => {
+const InsertListButtons = () => {
   const [editor] = useLexicalComposerContext();
   const listTags: { tag: ListTag; icon: ReactNode }[] = [
     { tag: 'ol', icon: <PiListNumbersLight /> },
@@ -27,11 +27,11 @@ const ListToolbarPlugin = () => {
   };
 
   return (
-    <Wrapper>
+    <Wrapper className="InsertListButtons toolbar-btn-strip">
       {listTags.map(({ tag, icon }) => {
         return (
           <button
-            className="toolbar-btn"
+            className="toolbar-btn list-btn"
             onClick={() => {
               makeSelectionList(tag);
             }}
@@ -44,10 +44,10 @@ const ListToolbarPlugin = () => {
     </Wrapper>
   );
 };
-export default ListToolbarPlugin;
+export default InsertListButtons;
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 0.2rem;
+  .list-btn {
+    font-size: 1.2rem;
+  }
 `;

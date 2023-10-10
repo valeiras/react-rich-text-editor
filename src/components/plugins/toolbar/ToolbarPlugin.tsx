@@ -7,17 +7,18 @@ import { $getSelection, $isRangeSelection } from 'lexical';
 import { $isListNode, ListNode } from '@lexical/list';
 import { $isHeadingNode } from '@lexical/rich-text';
 
-import HeadingToolbarPlugin from './HeadingToolbarPlugin';
-import ListToolbarPlugin from './ListToolbarPlugin';
+import HeadingTypeSelector from './HeadingTypeSelector';
+import InsertListButtons from './InsertListButtons';
+import TextStylingButtons from './TextStylingButtons';
 
-const ToolbarPlugin = () => {
+const ToolbarPlugin = (): JSX.Element => {
   const [editor] = useLexicalComposerContext();
   const [blockType, setBlockType] = useState('paragraph');
   // const [isRTL, setIsRTL] = useState(false);
-  // const [isBold, setIsBold] = useState(false);
-  // const [isItalic, setIsItalic] = useState(false);
-  // const [isUnderline, setIsUnderline] = useState(false);
-  // const [isStrikethrough, setIsStrikethrough] = useState(false);
+  const [isBold, setIsBold] = useState(false);
+  const [isItalic, setIsItalic] = useState(false);
+  const [isUnderline, setIsUnderline] = useState(false);
+  const [isStrikethrough, setIsStrikethrough] = useState(false);
 
   const updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -42,16 +43,16 @@ const ToolbarPlugin = () => {
         }
       }
       // Update text format
-      // setIsBold(selection.hasFormat('bold'));
-      // setIsItalic(selection.hasFormat('italic'));
-      // setIsUnderline(selection.hasFormat('underline'));
-      // setIsStrikethrough(selection.hasFormat('strikethrough'));
+      setIsBold(selection.hasFormat('bold'));
+      setIsItalic(selection.hasFormat('italic'));
+      setIsUnderline(selection.hasFormat('underline'));
+      setIsStrikethrough(selection.hasFormat('strikethrough'));
       // setIsRTL($isParentElementRTL(selection));
     }
   }, [editor]);
 
   useEffect(() => {
-    editor.registerUpdateListener(({ editorState }) => {
+    return editor.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
         updateToolbar();
       });
@@ -60,8 +61,17 @@ const ToolbarPlugin = () => {
 
   return (
     <Wrapper className="ToolbarPlugin">
-      <HeadingToolbarPlugin blockType={blockType} />
-      <ListToolbarPlugin />
+      <HeadingTypeSelector blockType={blockType} />
+      <Divider />
+      <InsertListButtons />
+      <Divider />
+      <TextStylingButtons
+        isBold={isBold}
+        isItalic={isItalic}
+        isUnderline={isUnderline}
+        isStrikethrough={isStrikethrough}
+      />
+      <Divider />
     </Wrapper>
   );
 };
@@ -74,4 +84,12 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
   gap: 0.2rem;
   align-items: stretch;
+  border-bottom: 1px solid #bbb;
+  padding: var(--default-padding);
+`;
+
+const Divider = styled.div`
+  width: 1px;
+  background-color: #bbb;
+  margin: 0 0.25rem;
 `;

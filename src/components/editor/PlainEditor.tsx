@@ -40,7 +40,7 @@ const Wrapper = styled.div`
 
   .content-editable {
     outline: none;
-    border: 1px solid black;
+    border: var(--default-border);
     border-radius: var(--border-radius);
     padding: var(--default-padding);
     padding-left: var(--editor-padding);
