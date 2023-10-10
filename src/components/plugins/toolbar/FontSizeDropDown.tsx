@@ -1,15 +1,15 @@
 import StyleDropDown from './StyleDropDown';
 
-const fontSizes = [...Array(6).keys()]
-  .map((x) => `${x + 5}px`)
-  .concat([...Array(5).keys()].map((x) => `${2 * x + 12}px`))
-  .concat([...Array(5).keys()].map((x) => `${4 * x + 24}px`));
+const fontSizes = [...Array(9).keys()]
+  .map((x) => `${(0.2 * x + 0.2).toFixed(1)} rem`)
+  .concat([...Array(5).keys()].map((x) => `${(0.5 * x + 2).toFixed(1)}rem`));
 
 const FontSizeDropDown = ({
   selectionFontSize,
 }: {
   selectionFontSize: string;
 }): JSX.Element => {
+  console.log(selectionFontSize);
   return (
     <StyleDropDown
       currValue={selectionFontSize}

@@ -7,7 +7,7 @@
 }
 
 :root {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -29,6 +29,7 @@
   --dark-grey: #eee;
   --border-radius: 5px;
   --default-padding: 0.3rem;
+  --editor-padding: 1rem;
 
   /* box shadow*/
   --shadow-1: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
@@ -49,7 +50,11 @@ body {
   min-height: 100vh;
   background-color: white;
   position: relative;
-  font-family: 'Noto Sans', Helvetica, sans-serif;
+  font-family: Helvetica, sans-serif;
+}
+
+#root {
+  width: 100%;
 }
 
 .toolbar-btn-strip {
@@ -76,19 +81,27 @@ body {
   background-color: var(--dark-grey);
 }
 
+.content-editable {
+  outline: none;
+  border-radius: var(--border-radius);
+  padding: var(--default-padding) var(--editor-padding);
+  background-color: white;
+  font-family: Arial;
+}
+
 .rich-editor-select {
   border-radius: var(--border-radius);
   border: none;
-  font-family: 'Noto Sans', Helvetica, sans-serif;
+  font-family: Helvetica, sans-serif;
   font-size: 1rem;
   outline: none;
   background-color: transparent;
-  max-width: 5rem;
   text-overflow: ellipsis;
+  cursor: pointer;
 }
 
 .rich-editor-select.narrow-select {
-  max-width: 4rem;
+  max-width: 5rem;
 }
 
 .rich-editor-banner {

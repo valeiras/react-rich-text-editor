@@ -24,6 +24,7 @@ const Wrapper = styled.div`
     font-size: 2.5rem;
     text-transform: uppercase;
     text-align: center;
-    margin-bottom: 2rem;
+    margin: 0 auto 2rem;
+    width: 90%;
   }
 `;

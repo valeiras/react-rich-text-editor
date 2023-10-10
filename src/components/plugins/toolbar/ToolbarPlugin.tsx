@@ -22,7 +22,7 @@ const ToolbarPlugin = (): JSX.Element => {
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
   const [isStrikethrough, setIsStrikethrough] = useState(false);
-  const [fontSize, setFontSize] = useState('12px');
+  const [fontSize, setFontSize] = useState('1,0rem');
   const [fontFamily, setFontFamily] = useState('Arial');
 
   const updateToolbar = useCallback(() => {
@@ -53,7 +53,7 @@ const ToolbarPlugin = (): JSX.Element => {
       setIsUnderline(selection.hasFormat('underline'));
       setIsStrikethrough(selection.hasFormat('strikethrough'));
       setFontSize(
-        $getSelectionStyleValueForProperty(selection, 'font-size', '12px')
+        $getSelectionStyleValueForProperty(selection, 'font-size', '1.0 rem')
       );
       setFontFamily(
         $getSelectionStyleValueForProperty(selection, 'font-family', 'Arial')
@@ -69,12 +69,14 @@ const ToolbarPlugin = (): JSX.Element => {
     });
   }, [editor, updateToolbar]);
 
+  console.log(fontSize);
   return (
     <Wrapper className="ToolbarPlugin">
       <HeadingTypeDropDown blockType={blockType} />
       <Divider />
-      <FontFamilyDropDown selectionFontFamily={fontFamily} />
       <FontSizeDropDown selectionFontSize={fontSize} />
+      <Divider />
+      <FontFamilyDropDown selectionFontFamily={fontFamily} />
       <Divider />
       <TextStylingButtons
         isBold={isBold}
@@ -95,7 +97,8 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 0.2rem;
+  column-gap: 0.2rem;
+  row-gap: 0.5rem;
   align-items: stretch;
   border-bottom: 1px solid #bbb;
   padding: var(--default-padding);

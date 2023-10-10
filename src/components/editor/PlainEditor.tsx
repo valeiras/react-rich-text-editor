@@ -35,17 +35,8 @@ export default PlainEditor;
 
 const Wrapper = styled.div`
   position: relative;
-
-  --editor-padding: 1rem;
-
-  .content-editable {
-    outline: none;
-    border: var(--default-border);
-    border-radius: var(--border-radius);
-    padding: var(--default-padding);
-    padding-left: var(--editor-padding);
-    background-color: white;
-  }
+  border-radius: var(--border-radius);
+  border: var(--default-border);
 
   .placeholder {
     position: absolute;

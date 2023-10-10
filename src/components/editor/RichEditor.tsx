@@ -60,19 +60,14 @@ export default RichEditor;
 const Wrapper = styled.div`
   position: relative;
 
-  --editor-padding: 1rem;
   --toolbar-height: 2.2rem;
   border-radius: var(--border-radius);
   border: var(--default-border);
   background-color: white;
 
   .content-editable {
-    outline: none;
-    min-height: 100px;
-    width: 500px;
-    border-radius: var(--border-radius);
-    padding: var(--default-padding) var(--editor-padding);
-    background-color: white;
+    min-height: 5rem;
+    width: 100%;
   }
 
   .placeholder {

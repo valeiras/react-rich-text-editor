@@ -36,9 +36,9 @@ const Row = ({
 const Wrapper = styled.div`
   margin: 0 auto;
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto 1fr;
   border-radius: var(--border-radius);
-
+  width: 90%;
   border: var(--default-border);
   background-color: var(--main-bg-color);
 
@@ -55,5 +55,9 @@ const Wrapper = styled.div`
   & > :nth-child(4n + 3),
   & > :nth-child(4n + 4) {
     background-color: var(--light-grey);
+  }
+
+  @media screen and (min-width: 992px) {
+    width: 50%;
   }
 `;
