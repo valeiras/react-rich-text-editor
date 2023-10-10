@@ -1,39 +1,21 @@
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { $getSelection, $isRangeSelection } from 'lexical';
-import { $patchStyleText } from '@lexical/selection';
+import StyleDropDown from './StyleDropDown';
 
-const fontSizes = [...Array(16).keys()].map((x) => `${x + 7}px`);
-console.log(fontSizes);
+const fontSizes = [...Array(6).keys()]
+  .map((x) => `${x + 5}px`)
+  .concat([...Array(5).keys()].map((x) => `${2 * x + 12}px`))
+  .concat([...Array(5).keys()].map((x) => `${4 * x + 24}px`));
 
-const FontSizeDropDown = ({ fontSize }: { fontSize: string }): JSX.Element => {
-  const [editor] = useLexicalComposerContext();
-
-  const setSelectionFontSize = (size: string) => {
-    editor.update(() => {
-      const selection = $getSelection();
-      if ($isRangeSelection(selection)) {
-        $patchStyleText(selection, {
-          'font-size': size,
-        });
-      }
-    });
-  };
+const FontSizeDropDown = ({
+  selectionFontSize,
+}: {
+  selectionFontSize: string;
+}): JSX.Element => {
   return (
-    <select
-      className="rich-editor-select"
-      value={fontSize}
-      onChange={(evt) => {
-        setSelectionFontSize(evt.target.value);
-      }}
-    >
-      {fontSizes.map((size) => {
-        return (
-          <option value={size} key={size}>
-            {size}
-          </option>
-        );
-      })}
-    </select>
+    <StyleDropDown
+      currValue={selectionFontSize}
+      availableValues={fontSizes}
+      propertyName="font-size"
+    />
   );
 };
 export default FontSizeDropDown;

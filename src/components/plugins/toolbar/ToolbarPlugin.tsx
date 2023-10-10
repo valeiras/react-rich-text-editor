@@ -12,6 +12,7 @@ import HeadingTypeDropDown from './HeadingTypeDropDown';
 import InsertListButtons from './InsertListButtons';
 import TextStylingButtons from './TextStylingButtons';
 import FontSizeDropDown from './FontSizeDropDown';
+import FontFamilyDropDown from './FontFamilyDropDown';
 
 const ToolbarPlugin = (): JSX.Element => {
   const [editor] = useLexicalComposerContext();
@@ -22,6 +23,7 @@ const ToolbarPlugin = (): JSX.Element => {
   const [isUnderline, setIsUnderline] = useState(false);
   const [isStrikethrough, setIsStrikethrough] = useState(false);
   const [fontSize, setFontSize] = useState('12px');
+  const [fontFamily, setFontFamily] = useState('Arial');
 
   const updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -53,12 +55,9 @@ const ToolbarPlugin = (): JSX.Element => {
       setFontSize(
         $getSelectionStyleValueForProperty(selection, 'font-size', '12px')
       );
-
-      console.log(
-        $getSelectionStyleValueForProperty(selection, 'font-size', '12px')
+      setFontFamily(
+        $getSelectionStyleValueForProperty(selection, 'font-family', 'Arial')
       );
-
-      // setIsRTL($isParentElementRTL(selection));
     }
   }, [editor]);
 
@@ -74,7 +73,8 @@ const ToolbarPlugin = (): JSX.Element => {
     <Wrapper className="ToolbarPlugin">
       <HeadingTypeDropDown blockType={blockType} />
       <Divider />
-      <FontSizeDropDown fontSize={fontSize} />
+      <FontFamilyDropDown selectionFontFamily={fontFamily} />
+      <FontSizeDropDown selectionFontSize={fontSize} />
       <Divider />
       <TextStylingButtons
         isBold={isBold}

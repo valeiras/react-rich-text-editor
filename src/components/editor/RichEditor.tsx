@@ -96,22 +96,22 @@ const Wrapper = styled.div`
   }
 
   .rich-editor-h1 {
-    font-size: 3rem;
+    font-size: 40px;
   }
   .rich-editor-h2 {
-    font-size: 2.5rem;
+    font-size: 36px;
   }
   .rich-editor-h3 {
-    font-size: 2rem;
+    font-size: 32px;
   }
   .rich-editor-h4 {
-    font-size: 1.8rem;
+    font-size: 28px;
   }
   .rich-editor-h5 {
-    font-size: 1.6rem;
+    font-size: 24px;
   }
   .rich-editor-h6 {
-    font-size: 1.4rem;
+    font-size: 20px;
   }
 
   ol,
