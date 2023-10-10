@@ -8,7 +8,7 @@ import { $createHeadingNode, HeadingTagType } from '@lexical/rich-text';
 import { $setBlocksType } from '@lexical/selection';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
-const HeadingTypeSelector = ({
+const HeadingTypeDropDown = ({
   blockType,
 }: {
   blockType: string;
@@ -65,7 +65,7 @@ const HeadingTypeSelector = ({
     </SelectWrapper>
   );
 };
-export default HeadingTypeSelector;
+export default HeadingTypeDropDown;
 
 const SelectWrapper = styled.select`
   .rich-editor-option-h1 {

@@ -4,12 +4,14 @@ import { useEffect, useCallback, useState } from 'react';
 import { $getNearestNodeOfType } from '@lexical/utils';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $getSelection, $isRangeSelection } from 'lexical';
+import { $getSelectionStyleValueForProperty } from '@lexical/selection';
 import { $isListNode, ListNode } from '@lexical/list';
 import { $isHeadingNode } from '@lexical/rich-text';
 
-import HeadingTypeSelector from './HeadingTypeSelector';
+import HeadingTypeDropDown from './HeadingTypeDropDown';
 import InsertListButtons from './InsertListButtons';
 import TextStylingButtons from './TextStylingButtons';
+import FontSizeDropDown from './FontSizeDropDown';
 
 const ToolbarPlugin = (): JSX.Element => {
   const [editor] = useLexicalComposerContext();
@@ -19,6 +21,7 @@ const ToolbarPlugin = (): JSX.Element => {
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
   const [isStrikethrough, setIsStrikethrough] = useState(false);
+  const [fontSize, setFontSize] = useState('12px');
 
   const updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -47,6 +50,14 @@ const ToolbarPlugin = (): JSX.Element => {
       setIsItalic(selection.hasFormat('italic'));
       setIsUnderline(selection.hasFormat('underline'));
       setIsStrikethrough(selection.hasFormat('strikethrough'));
+      setFontSize(
+        $getSelectionStyleValueForProperty(selection, 'font-size', '12px')
+      );
+
+      console.log(
+        $getSelectionStyleValueForProperty(selection, 'font-size', '12px')
+      );
+
       // setIsRTL($isParentElementRTL(selection));
     }
   }, [editor]);
@@ -61,9 +72,9 @@ const ToolbarPlugin = (): JSX.Element => {
 
   return (
     <Wrapper className="ToolbarPlugin">
-      <HeadingTypeSelector blockType={blockType} />
+      <HeadingTypeDropDown blockType={blockType} />
       <Divider />
-      <InsertListButtons />
+      <FontSizeDropDown fontSize={fontSize} />
       <Divider />
       <TextStylingButtons
         isBold={isBold}
@@ -71,6 +82,8 @@ const ToolbarPlugin = (): JSX.Element => {
         isUnderline={isUnderline}
         isStrikethrough={isStrikethrough}
       />
+      <Divider />
+      <InsertListButtons />
       <Divider />
     </Wrapper>
   );
