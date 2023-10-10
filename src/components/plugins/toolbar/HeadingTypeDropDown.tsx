@@ -5,7 +5,7 @@ import {
   $isRangeSelection,
 } from 'lexical';
 import { $createHeadingNode, HeadingTagType } from '@lexical/rich-text';
-import { $patchStyleText, $setBlocksType } from '@lexical/selection';
+import { $setBlocksType } from '@lexical/selection';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
 const HeadingTypeDropDown = ({
