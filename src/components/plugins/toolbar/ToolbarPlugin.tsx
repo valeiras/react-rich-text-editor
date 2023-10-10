@@ -13,6 +13,8 @@ import InsertListButtons from './InsertListButtons';
 import TextStylingButtons from './TextStylingButtons';
 import FontSizeDropDown from './FontSizeDropDown';
 import FontFamilyDropDown from './FontFamilyDropDown';
+import BgColorPicker from './BgColorPicker';
+import TextColorPicker from './TextColorPicker';
 
 const ToolbarPlugin = (): JSX.Element => {
   const [editor] = useLexicalComposerContext();
@@ -24,6 +26,8 @@ const ToolbarPlugin = (): JSX.Element => {
   const [isStrikethrough, setIsStrikethrough] = useState(false);
   const [fontSize, setFontSize] = useState('1,0rem');
   const [fontFamily, setFontFamily] = useState('Arial');
+  const [fontColor, setFontColor] = useState<string>('#000');
+  const [bgColor, setBgColor] = useState<string>('#fff');
 
   const updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -58,6 +62,16 @@ const ToolbarPlugin = (): JSX.Element => {
       setFontFamily(
         $getSelectionStyleValueForProperty(selection, 'font-family', 'Arial')
       );
+      setFontColor(
+        $getSelectionStyleValueForProperty(selection, 'color', '#000000')
+      );
+      setBgColor(
+        $getSelectionStyleValueForProperty(
+          selection,
+          'background-color',
+          '#ffffff'
+        )
+      );
     }
   }, [editor]);
 
@@ -69,7 +83,6 @@ const ToolbarPlugin = (): JSX.Element => {
     });
   }, [editor, updateToolbar]);
 
-  console.log(fontSize);
   return (
     <Wrapper className="ToolbarPlugin">
       <HeadingTypeDropDown blockType={blockType} />
@@ -84,6 +97,9 @@ const ToolbarPlugin = (): JSX.Element => {
         isUnderline={isUnderline}
         isStrikethrough={isStrikethrough}
       />
+      <Divider />
+      <BgColorPicker bgColor={bgColor} />
+      <TextColorPicker fontColor={fontColor} />
       <Divider />
       <InsertListButtons />
       <Divider />

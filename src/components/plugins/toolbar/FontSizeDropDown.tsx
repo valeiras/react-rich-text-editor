@@ -9,7 +9,6 @@ const FontSizeDropDown = ({
 }: {
   selectionFontSize: string;
 }): JSX.Element => {
-  console.log(selectionFontSize);
   return (
     <StyleDropDown
       currValue={selectionFontSize}

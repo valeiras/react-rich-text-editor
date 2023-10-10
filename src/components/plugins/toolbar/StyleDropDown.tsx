@@ -23,8 +23,6 @@ const StyleDropDown = ({
       }
     });
   };
-
-  console.log('Style drop down:', currValue);
   return (
     <select
       className="rich-editor-select narrow-select"
