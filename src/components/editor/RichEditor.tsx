@@ -9,7 +9,6 @@ import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import ToolbarPlugin from '../plugins/toolbar/ToolbarPlugin';
-import { BannerNode, BannerPlugin } from '../plugins/banner/BannerPlugin';
 
 const theme = {
   heading: {
@@ -26,7 +25,6 @@ const theme = {
     underline: 'rich-editor-underline',
     strikethrough: 'rich-editor-strikethrough',
   },
-  banner: 'rich-editor-banner',
 };
 
 const onError = (error: Error): void => {
@@ -38,7 +36,7 @@ const RichEditor = (): JSX.Element => {
     namespace: 'MyEditor',
     theme,
     onError,
-    nodes: [HeadingNode, ListNode, ListItemNode, BannerNode],
+    nodes: [HeadingNode, ListNode, ListItemNode],
   };
 
   return (
@@ -46,7 +44,6 @@ const RichEditor = (): JSX.Element => {
       <LexicalComposer initialConfig={initialConfig}>
         <ToolbarPlugin />
         <ListPlugin />
-        <BannerPlugin />
         <RichTextPlugin
           contentEditable={<ContentEditable className="content-editable" />}
           placeholder={<div className="placeholder"></div>}
