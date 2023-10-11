@@ -1,4 +1,7 @@
 import styled from 'styled-components';
+
+import { useState } from 'react';
+
 import { HeadingNode } from '@lexical/rich-text';
 import { ListItemNode, ListNode } from '@lexical/list';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
@@ -7,8 +10,11 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
+import { LinkNode, AutoLinkNode } from '@lexical/link';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
-import ToolbarPlugin from '../plugins/toolbar/ToolbarPlugin';
+import { AutoLinkPlugin, ToolbarPlugin } from '../plugins/';
+import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
+import LexicalClickableLinkPlugin from '@lexical/react/LexicalClickableLinkPlugin';
 
 const theme = {
   heading: {
@@ -25,6 +31,7 @@ const theme = {
     underline: 'rich-editor-underline',
     strikethrough: 'rich-editor-strikethrough',
   },
+  link: 'rich-editor-link',
 };
 
 const onError = (error: Error): void => {
@@ -32,11 +39,20 @@ const onError = (error: Error): void => {
 };
 
 const RichEditor = (): JSX.Element => {
+  const [floatingAnchorElem, setFloatingAnchorElem] =
+    useState<HTMLDivElement | null>(null);
+
   const initialConfig = {
     namespace: 'MyEditor',
     theme,
     onError,
-    nodes: [HeadingNode, ListNode, ListItemNode],
+    nodes: [HeadingNode, ListNode, ListItemNode, LinkNode, AutoLinkNode],
+  };
+
+  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
+    if (_floatingAnchorElem !== null) {
+      setFloatingAnchorElem(_floatingAnchorElem);
+    }
   };
 
   return (
@@ -44,8 +60,15 @@ const RichEditor = (): JSX.Element => {
       <LexicalComposer initialConfig={initialConfig}>
         <ToolbarPlugin />
         <ListPlugin />
+        <LinkPlugin />
+        <LexicalClickableLinkPlugin />
+        <AutoLinkPlugin />
         <RichTextPlugin
-          contentEditable={<ContentEditable className="content-editable" />}
+          contentEditable={
+            <div className="content-editable" ref={onRef}>
+              <ContentEditable className="content-editable" />
+            </div>
+          }
           placeholder={<div className="placeholder"></div>}
           ErrorBoundary={LexicalErrorBoundary}
         />

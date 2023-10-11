@@ -4,23 +4,29 @@ import { useEffect, useCallback, useState } from 'react';
 import { $getNearestNodeOfType } from '@lexical/utils';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $getSelection, $isRangeSelection } from 'lexical';
+import { $isLinkNode } from '@lexical/link';
 import { $getSelectionStyleValueForProperty } from '@lexical/selection';
 import { $isListNode, ListNode } from '@lexical/list';
 import { $isHeadingNode } from '@lexical/rich-text';
 
-import HeadingTypeDropDown from './HeadingTypeDropDown';
-import InsertListButtons from './InsertListButtons';
-import TextStylingButtons from './TextStylingButtons';
-import FontSizeDropDown from './FontSizeDropDown';
-import FontFamilyDropDown from './FontFamilyDropDown';
-import BgColorPicker from './BgColorPicker';
-import TextColorPicker from './TextColorPicker';
+import {
+  HeadingTypeDropDown,
+  InsertListButtons,
+  TextStylingButtons,
+  FontFamilyDropDown,
+  FontSizeDropDown,
+  BgColorPicker,
+  TextColorPicker,
+  InsertLinkButton,
+} from './toolbar-elements';
+
+import getSelectedNode from '../../utils/getSelectedNode';
 
 const ToolbarPlugin = (): JSX.Element => {
   const [editor] = useLexicalComposerContext();
   const [blockType, setBlockType] = useState('paragraph');
-  // const [isRTL, setIsRTL] = useState(false);
   const [isBold, setIsBold] = useState(false);
+  const [isLink, setIsLink] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
   const [isStrikethrough, setIsStrikethrough] = useState(false);
@@ -72,6 +78,15 @@ const ToolbarPlugin = (): JSX.Element => {
           '#ffffff'
         )
       );
+
+      // Update links
+      const node = getSelectedNode(selection);
+      const parent = node.getParent();
+      if ($isLinkNode(parent) || $isLinkNode(node)) {
+        setIsLink(true);
+      } else {
+        setIsLink(false);
+      }
     }
   }, [editor]);
 
@@ -100,6 +115,8 @@ const ToolbarPlugin = (): JSX.Element => {
       <Divider />
       <BgColorPicker bgColor={bgColor} />
       <TextColorPicker fontColor={fontColor} />
+      <Divider />
+      <InsertLinkButton isLink={isLink} />
       <Divider />
       <InsertListButtons />
       <Divider />

@@ -29,7 +29,7 @@ const ColorPicker = ({
 
   return (
     <Wrapper className="ColorPicker">
-      <div className="icon-container">{icon}</div>
+      <button className="icon-container toolbar-btn">{icon}</button>
       <input
         type="color"
         name={propertyName}
@@ -46,6 +46,27 @@ export default ColorPicker;
 
 const Wrapper = styled.div`
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .color-indicator {
+    width: 60%;
+    height: 4px;
+  }
+
+  .color-input {
+    border: none;
+    background-color: transparent;
+    width: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+  }
+
+  .icon-container:has(+ .color-input:hover) {
+    background-color: var(--dark-grey);
+  }
 
   .icon-container {
     position: absolute;
@@ -54,6 +75,8 @@ const Wrapper = styled.div`
     transform: translate(-50%, -50%);
     font-size: 1.2rem;
     display: flex;
+    background-color: transparent;
+    border: transparent;
   }
 
   input {

@@ -113,11 +113,3 @@ body {
   padding: 1rem;
   border-radius: var(--border-radius);
 }
-
-.color-input {
-  border: none;
-  background-color: transparent;
-  width: 1.5rem;
-  height: 1.5rem;
-  cursor: pointer;
-}
