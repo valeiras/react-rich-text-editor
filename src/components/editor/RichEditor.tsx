@@ -61,9 +61,7 @@ const RichEditor = (): JSX.Element => {
         <RichTextPlugin
           contentEditable={
             <div className="editor-scroller">
-              <div className="content-editable">
-                <ContentEditable className="content-editable" />
-              </div>
+              <ContentEditable className="content-editable" />
             </div>
           }
           placeholder={<div className="placeholder"></div>}
@@ -85,11 +83,6 @@ const Wrapper = styled.div`
   border: var(--default-border);
   background-color: white;
   overflow: hidden;
-
-  .content-editable {
-    height: 100%;
-    width: 100%;
-  }
 
   .editor-scroller {
     height: 20rem;
