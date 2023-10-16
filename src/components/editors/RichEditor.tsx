@@ -42,6 +42,10 @@ const theme = {
     ul: 'rich-editor-ul',
     ol: 'rich-editor-ol',
   },
+  embedBlock: {
+    base: 'rich-editor-embed-block',
+    focus: 'rich-editor-embed-block-focus',
+  },
 };
 
 const onError = (error: Error): void => {
@@ -152,5 +156,12 @@ const Wrapper = styled.div`
     cursor: pointer;
     font-weight: 600;
     color: purple;
+  }
+
+  .rich-editor-embed-block {
+    user-select: none;
+  }
+  .rich-editor-embed-block-focus {
+    /* outline: 2px solid rgb(60, 132, 244); */
   }
 `;

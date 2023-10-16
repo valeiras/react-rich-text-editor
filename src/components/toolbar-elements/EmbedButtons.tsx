@@ -1,5 +1,5 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { EmbedConfigs } from '../AutoEmbedPlugin';
+import { EmbedConfigs } from '../plugins/AutoEmbedPlugin';
 import { INSERT_EMBED_COMMAND } from '@lexical/react/LexicalAutoEmbedPlugin';
 
 const EmbedButtons = () => {

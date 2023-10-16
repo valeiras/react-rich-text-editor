@@ -5,7 +5,9 @@ import { $getNearestNodeOfType } from '@lexical/utils';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
   $getSelection,
+  $isElementNode,
   $isRangeSelection,
+  ElementFormatType,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
 import { $isLinkNode } from '@lexical/link';
@@ -23,12 +25,13 @@ import {
   BgColorPicker,
   TextColorPicker,
   InsertLinkButton,
-} from './toolbar-elements';
+} from '../toolbar-elements';
 
 import getSelectedNode from '../../utils/getSelectedNode';
 import { LOW_PRIORITY } from '../../utils/constants';
-import SaveButton from './toolbar-elements/SaveButton';
-import EmbedButtons from './toolbar-elements/EmbedButtons';
+import SaveButton from '../toolbar-elements/SaveButton';
+import EmbedButtons from '../toolbar-elements/EmbedButtons';
+import AlignButtons from '../toolbar-elements/AlignButtons';
 
 const ToolbarPlugin = (): JSX.Element => {
   const [editor] = useLexicalComposerContext();
@@ -40,6 +43,7 @@ const ToolbarPlugin = (): JSX.Element => {
   const [isStrikethrough, setIsStrikethrough] = useState(false);
   const [fontSize, setFontSize] = useState('1,0rem');
   const [fontFamily, setFontFamily] = useState('Arial');
+  const [elementFormat, setElementFormat] = useState<ElementFormatType>('left');
   const [fontColor, setFontColor] = useState<string>('#000000');
   const [bgColor, setBgColor] = useState<string>('#ffffff');
 
@@ -95,6 +99,13 @@ const ToolbarPlugin = (): JSX.Element => {
       } else {
         setIsLink(false);
       }
+
+      // Update text align
+      setElementFormat(
+        ($isElementNode(node)
+          ? node.getFormatType()
+          : parent?.getFormatType()) || 'left'
+      );
     }
   }, [editor]);
 
@@ -124,6 +135,7 @@ const ToolbarPlugin = (): JSX.Element => {
       <Divider />
       <FontFamilyDropDown selectionFontFamily={fontFamily} />
       <Divider />
+
       <TextStylingButtons
         isBold={isBold}
         isItalic={isItalic}
@@ -133,6 +145,8 @@ const ToolbarPlugin = (): JSX.Element => {
       <Divider />
       <BgColorPicker bgColor={bgColor} />
       <TextColorPicker fontColor={fontColor} />
+      <Divider />
+      <AlignButtons elementFormat={elementFormat} />
       <Divider />
       <InsertLinkButton isLink={isLink} />
       <EmbedButtons />
