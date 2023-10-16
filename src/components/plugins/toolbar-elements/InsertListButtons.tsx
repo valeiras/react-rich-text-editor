@@ -11,9 +11,9 @@ type ListTag = 'ol' | 'ul';
 
 const InsertListButtons = () => {
   const [editor] = useLexicalComposerContext();
-  const listTags: { tag: ListTag; icon: ReactNode }[] = [
-    { tag: 'ol', icon: <PiListNumbers /> },
-    { tag: 'ul', icon: <PiListBullets /> },
+  const listTags: { tag: ListTag; icon: ReactNode; title: string }[] = [
+    { tag: 'ol', icon: <PiListNumbers />, title: 'Insertar lista numerada' },
+    { tag: 'ul', icon: <PiListBullets />, title: 'Insertar lista' },
   ];
 
   const makeSelectionList = (tag: ListTag): void => {
@@ -28,13 +28,14 @@ const InsertListButtons = () => {
 
   return (
     <Wrapper className="InsertListButtons toolbar-btn-strip">
-      {listTags.map(({ tag, icon }) => {
+      {listTags.map(({ tag, icon, title }) => {
         return (
           <button
             className="toolbar-btn list-btn"
             onClick={() => {
               makeSelectionList(tag);
             }}
+            title={title}
             key={tag}
           >
             {icon}

@@ -14,7 +14,13 @@ import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import LexicalClickableLinkPlugin from '@lexical/react/LexicalClickableLinkPlugin';
 
-import { ToolbarPlugin, AutoLinkPlugin } from '../plugins/';
+import {
+  ToolbarPlugin,
+  AutoLinkPlugin,
+  YouTubePlugin,
+  AutoEmbedPlugin,
+} from '../plugins';
+import { YouTubeNode } from '../nodes/YouTubeNode';
 
 const theme = {
   heading: {
@@ -47,7 +53,14 @@ const RichEditor = (): JSX.Element => {
     namespace: 'MyEditor',
     theme,
     onError,
-    nodes: [HeadingNode, ListNode, ListItemNode, LinkNode, AutoLinkNode],
+    nodes: [
+      HeadingNode,
+      ListNode,
+      ListItemNode,
+      LinkNode,
+      AutoLinkNode,
+      YouTubeNode,
+    ],
   };
 
   return (
@@ -68,6 +81,8 @@ const RichEditor = (): JSX.Element => {
           ErrorBoundary={LexicalErrorBoundary}
         />
         <HistoryPlugin />
+        <YouTubePlugin />
+        <AutoEmbedPlugin />
         <AutoFocusPlugin />
       </LexicalComposer>
     </Wrapper>

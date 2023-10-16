@@ -6,7 +6,7 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { useCallback, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import FloatingLinkEditor from '../../editor-elements/FloatingLinkEditor';
+import FloatingLinkEditor from '../../editors/FloatingLinkEditor';
 import { toast } from 'react-toastify';
 
 const InsertLinkButton = ({ isLink }: { isLink: boolean }) => {
@@ -37,6 +37,7 @@ const InsertLinkButton = ({ isLink }: { isLink: boolean }) => {
       <button
         className={isLink ? 'toolbar-btn active-btn' : 'toolbar-btn'}
         onClick={toggleLink}
+        title="Insertar hipervínculo"
       >
         <BiLinkAlt />
       </button>

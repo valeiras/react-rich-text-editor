@@ -27,6 +27,8 @@ import {
 
 import getSelectedNode from '../../utils/getSelectedNode';
 import { LOW_PRIORITY } from '../../utils/constants';
+import SaveButton from './toolbar-elements/SaveButton';
+import EmbedButtons from './toolbar-elements/EmbedButtons';
 
 const ToolbarPlugin = (): JSX.Element => {
   const [editor] = useLexicalComposerContext();
@@ -135,6 +137,10 @@ const ToolbarPlugin = (): JSX.Element => {
       <InsertLinkButton isLink={isLink} />
       <Divider />
       <InsertListButtons />
+      <Divider />
+      <EmbedButtons />
+      <Divider />
+      <SaveButton />
       <Divider />
     </Wrapper>
   );
