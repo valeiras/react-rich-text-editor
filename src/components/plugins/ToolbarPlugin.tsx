@@ -3,11 +3,16 @@ import styled from 'styled-components';
 import { useEffect, useCallback, useState } from 'react';
 import { $getNearestNodeOfType } from '@lexical/utils';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { $getSelection, $isRangeSelection } from 'lexical';
+import {
+  $getSelection,
+  $isRangeSelection,
+  SELECTION_CHANGE_COMMAND,
+} from 'lexical';
 import { $isLinkNode } from '@lexical/link';
 import { $getSelectionStyleValueForProperty } from '@lexical/selection';
 import { $isListNode, ListNode } from '@lexical/list';
 import { $isHeadingNode } from '@lexical/rich-text';
+import { mergeRegister } from '@lexical/utils';
 
 import {
   HeadingTypeDropDown,
@@ -21,6 +26,7 @@ import {
 } from './toolbar-elements';
 
 import getSelectedNode from '../../utils/getSelectedNode';
+import { LOW_PRIORITY } from '../../utils/constants';
 
 const ToolbarPlugin = (): JSX.Element => {
   const [editor] = useLexicalComposerContext();
@@ -32,8 +38,8 @@ const ToolbarPlugin = (): JSX.Element => {
   const [isStrikethrough, setIsStrikethrough] = useState(false);
   const [fontSize, setFontSize] = useState('1,0rem');
   const [fontFamily, setFontFamily] = useState('Arial');
-  const [fontColor, setFontColor] = useState<string>('#000');
-  const [bgColor, setBgColor] = useState<string>('#fff');
+  const [fontColor, setFontColor] = useState<string>('#000000');
+  const [bgColor, setBgColor] = useState<string>('#ffffff');
 
   const updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -91,11 +97,21 @@ const ToolbarPlugin = (): JSX.Element => {
   }, [editor]);
 
   useEffect(() => {
-    return editor.registerUpdateListener(({ editorState }) => {
-      editorState.read(() => {
-        updateToolbar();
-      });
-    });
+    return mergeRegister(
+      editor.registerUpdateListener(({ editorState }) => {
+        editorState.read(() => {
+          updateToolbar();
+        });
+      }),
+      editor.registerCommand(
+        SELECTION_CHANGE_COMMAND,
+        () => {
+          updateToolbar();
+          return false;
+        },
+        LOW_PRIORITY
+      )
+    );
   }, [editor, updateToolbar]);
 
   return (

@@ -1,6 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
 import styled from 'styled-components';
-
-import { useState } from 'react';
 
 import { HeadingNode } from '@lexical/rich-text';
 import { ListItemNode, ListNode } from '@lexical/list';
@@ -10,11 +9,12 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
-import { LinkNode, AutoLinkNode } from '@lexical/link';
-import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
-import { AutoLinkPlugin, ToolbarPlugin } from '../plugins/';
+import { AutoLinkNode, LinkNode } from '@lexical/link';
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import LexicalClickableLinkPlugin from '@lexical/react/LexicalClickableLinkPlugin';
+
+import { ToolbarPlugin, AutoLinkPlugin } from '../plugins/';
 
 const theme = {
   heading: {
@@ -32,6 +32,10 @@ const theme = {
     strikethrough: 'rich-editor-strikethrough',
   },
   link: 'rich-editor-link',
+  list: {
+    ul: 'rich-editor-ul',
+    ol: 'rich-editor-ol',
+  },
 };
 
 const onError = (error: Error): void => {
@@ -39,20 +43,11 @@ const onError = (error: Error): void => {
 };
 
 const RichEditor = (): JSX.Element => {
-  const [floatingAnchorElem, setFloatingAnchorElem] =
-    useState<HTMLDivElement | null>(null);
-
   const initialConfig = {
     namespace: 'MyEditor',
     theme,
     onError,
     nodes: [HeadingNode, ListNode, ListItemNode, LinkNode, AutoLinkNode],
-  };
-
-  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
-    if (_floatingAnchorElem !== null) {
-      setFloatingAnchorElem(_floatingAnchorElem);
-    }
   };
 
   return (
@@ -65,8 +60,10 @@ const RichEditor = (): JSX.Element => {
         <AutoLinkPlugin />
         <RichTextPlugin
           contentEditable={
-            <div className="content-editable" ref={onRef}>
-              <ContentEditable className="content-editable" />
+            <div className="editor-scroller">
+              <div className="content-editable">
+                <ContentEditable className="content-editable" />
+              </div>
             </div>
           }
           placeholder={<div className="placeholder"></div>}
@@ -87,12 +84,17 @@ const Wrapper = styled.div`
   border-radius: var(--border-radius);
   border: var(--default-border);
   background-color: white;
+  overflow: hidden;
 
   .content-editable {
-    min-height: 5rem;
+    height: 100%;
     width: 100%;
   }
 
+  .editor-scroller {
+    height: 20rem;
+    overflow-y: scroll;
+  }
   .placeholder {
     position: absolute;
     top: calc(var(--toolbar-height) + var(--editor-padding));
@@ -132,8 +134,14 @@ const Wrapper = styled.div`
     font-size: 20px;
   }
 
-  ol,
-  ul {
+  .rich-editor-ol,
+  .rich-editor-ul {
     list-style-position: inside;
+  }
+
+  .rich-editor-link {
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 600;
   }
 `;

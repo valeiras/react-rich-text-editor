@@ -1,18 +1,21 @@
 import styled from 'styled-components';
 
-import { PiLinkSimpleBold } from 'react-icons/pi';
+import { BiLinkAlt } from 'react-icons/bi';
 import { TOGGLE_LINK_COMMAND } from '@lexical/link';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { useCallback, useState } from 'react';
+import { createPortal } from 'react-dom';
+
+import FloatingLinkEditor from '../../editor-elements/FloatingLinkEditor';
 
 const InsertLinkButton = ({ isLink }: { isLink: boolean }) => {
   const [editor] = useLexicalComposerContext();
-  const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
-  const [link, setLink] = useState('aaa');
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const insertLink = useCallback(() => {
+    setIsEditMode(true);
     if (!isLink) {
-      editor.dispatchCommand(TOGGLE_LINK_COMMAND, link);
+      editor.dispatchCommand(TOGGLE_LINK_COMMAND, '');
     } else {
       editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
     }
@@ -21,26 +24,38 @@ const InsertLinkButton = ({ isLink }: { isLink: boolean }) => {
   return (
     <Wrapper>
       <button
-        className="toolbar-btn"
-        onClick={() => {
-          setIsLinkEditMode(!isLinkEditMode);
-        }}
+        className={isLink ? 'toolbar-btn active-btn' : 'toolbar-btn'}
+        onClick={insertLink}
       >
-        <PiLinkSimpleBold />
+        <BiLinkAlt />
       </button>
-      {isLinkEditMode && <div className="editor-container"></div>}
+      {isLink &&
+        createPortal(
+          <FloatingLinkEditor
+            editor={editor}
+            isEditMode={isEditMode}
+            setIsEditMode={setIsEditMode}
+          />,
+          document.body
+        )}
     </Wrapper>
   );
 };
 export default InsertLinkButton;
 
 const Wrapper = styled.div`
+  position: relative;
+
   .editor-container {
     position: absolute;
-    width: 100px;
+    top: 2.2rem;
+    left: -0.3rem;
+    width: 300px;
     height: 100px;
-    background-color: var(--light-grey);
+    background-color: white;
+    border-radius: var(--border-radius);
     border: var(--default-border);
-    transform: translate(-0.5rem, 0.5rem);
+    z-index: 10;
+    transition: var(--transition);
   }
 `;
