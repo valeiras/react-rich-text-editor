@@ -1,14 +1,13 @@
 import styled from 'styled-components';
-// import { PlainEditor } from './components';
-// import { RichEditor } from './components';
 import { ContentTable } from './components';
+import { ToastContainer, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App(): JSX.Element {
   return (
     <Wrapper className="App">
+      <ToastContainer position="top-center" transition={Slide} />
       <h1 className="app-title">Ennubo text editor</h1>
-      {/* <PlainEditor /> */}
-      {/* <RichEditor /> */}
       <ContentTable />
     </Wrapper>
   );

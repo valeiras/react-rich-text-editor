@@ -7,6 +7,7 @@ import { useCallback, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import FloatingLinkEditor from '../../editor-elements/FloatingLinkEditor';
+import { toast } from 'react-toastify';
 
 const InsertLinkButton = ({ isLink }: { isLink: boolean }) => {
   const [editor] = useLexicalComposerContext();
@@ -16,7 +17,11 @@ const InsertLinkButton = ({ isLink }: { isLink: boolean }) => {
     setIsEditMode(true);
     if (!isLink) {
       // We prevent the insertion of the link if no text is selected
-      if (!window.getSelection()?.isCollapsed) {
+      if (window.getSelection()?.isCollapsed) {
+        toast.error(
+          'Selecciona el texto que quieras convertir en un hiperenlace'
+        );
+      } else {
         editor.dispatchCommand(TOGGLE_LINK_COMMAND, '');
       }
     } else {
