@@ -116,3 +116,11 @@ body {
   padding: 1rem;
   border-radius: var(--border-radius);
 }
+
+.Input__input {
+  outline: none;
+  border: 0;
+  font-size: 1rem;
+  text-overflow: ellipsis;
+  width: 100%;
+}

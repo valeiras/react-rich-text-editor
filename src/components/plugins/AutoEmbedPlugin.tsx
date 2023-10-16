@@ -44,7 +44,7 @@ interface PlaygroundEmbedConfig extends EmbedConfig {
 }
 
 export const YoutubeEmbedConfig: PlaygroundEmbedConfig = {
-  contentName: 'Youtube Video',
+  contentName: 'vídeo de YouTube',
 
   exampleUrl: 'https://www.youtube.com/watch?v=jNQXAC9IVRw',
 
@@ -79,7 +79,7 @@ export const YoutubeEmbedConfig: PlaygroundEmbedConfig = {
 
 export const TwitterEmbedConfig: PlaygroundEmbedConfig = {
   // e.g. Tweet or Google Map.
-  contentName: 'Tweet',
+  contentName: 'tweet',
 
   exampleUrl: 'https://twitter.com/jack/status/20',
 
@@ -114,7 +114,71 @@ export const TwitterEmbedConfig: PlaygroundEmbedConfig = {
   type: 'tweet',
 };
 
-export const EmbedConfigs = [TwitterEmbedConfig, YoutubeEmbedConfig];
+// export const EmbedConfigs = [TwitterEmbedConfig, YoutubeEmbedConfig];
+export const EmbedConfigs = [YoutubeEmbedConfig];
+
+function AutoEmbedMenuItem({
+  index,
+  isSelected,
+  onClick,
+  onMouseEnter,
+  option,
+}: {
+  index: number;
+  isSelected: boolean;
+  onClick: () => void;
+  onMouseEnter: () => void;
+  option: AutoEmbedOption;
+}) {
+  let className = 'item';
+  if (isSelected) {
+    className += ' selected';
+  }
+  return (
+    <li
+      key={option.key}
+      tabIndex={-1}
+      className={className}
+      ref={option.setRefElement}
+      role="option"
+      aria-selected={isSelected}
+      id={'typeahead-item-' + index}
+      onMouseEnter={onMouseEnter}
+      onClick={onClick}
+    >
+      <span className="text">{option.title}</span>
+    </li>
+  );
+}
+
+function AutoEmbedMenu({
+  options,
+  selectedItemIndex,
+  onOptionClick,
+  onOptionMouseEnter,
+}: {
+  selectedItemIndex: number | null;
+  onOptionClick: (option: AutoEmbedOption, index: number) => void;
+  onOptionMouseEnter: (index: number) => void;
+  options: Array<AutoEmbedOption>;
+}) {
+  return (
+    <div className="typeahead-popover">
+      <ul>
+        {options.map((option: AutoEmbedOption, i: number) => (
+          <AutoEmbedMenuItem
+            index={i}
+            isSelected={selectedItemIndex === i}
+            onClick={() => onOptionClick(option, i)}
+            onMouseEnter={() => onOptionMouseEnter(i)}
+            key={option.key}
+            option={option}
+          />
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 const debounce = (callback: (text: string) => void, delay: number) => {
   let timeoutId: number;
@@ -183,7 +247,7 @@ export function AutoEmbedDialog({
           onClick={onClick}
           data-test-id={`${embedConfig.type}-embed-modal-submit-btn`}
         >
-          Embed
+          Insertar
         </Button>
       </DialogActions>
     </div>
@@ -194,7 +258,7 @@ export default function AutoEmbedPlugin(): JSX.Element {
   const [modal, showModal] = useModal();
 
   const openEmbedModal = (embedConfig: PlaygroundEmbedConfig) => {
-    showModal(`Embed ${embedConfig.contentName}`, (onClose) => (
+    showModal(`Insertar ${embedConfig.contentName}`, (onClose) => (
       <AutoEmbedDialog embedConfig={embedConfig} onClose={onClose} />
     ));
   };
@@ -205,10 +269,10 @@ export default function AutoEmbedPlugin(): JSX.Element {
     dismissFn: () => void
   ) => {
     return [
-      new AutoEmbedOption('Dismiss', {
+      new AutoEmbedOption('Descartar', {
         onSelect: dismissFn,
       }),
-      new AutoEmbedOption(`Embed ${activeEmbedConfig.contentName}`, {
+      new AutoEmbedOption(`Insertar ${activeEmbedConfig.contentName}`, {
         onSelect: embedFn,
       }),
     ];

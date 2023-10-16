@@ -59,4 +59,5 @@
 }
 .Modal__content {
   padding-top: 20px;
+  outline: 0;
 }

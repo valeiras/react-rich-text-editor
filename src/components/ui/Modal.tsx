@@ -8,6 +8,7 @@
 
 import './Modal.css';
 
+import { FaTimes } from 'react-icons/fa';
 import { ReactNode, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -75,7 +76,7 @@ function PortalImpl({
           type="button"
           onClick={onClose}
         >
-          X
+          <FaTimes />
         </button>
         <div className="Modal__content">{children}</div>
       </div>

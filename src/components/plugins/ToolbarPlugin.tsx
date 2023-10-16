@@ -135,10 +135,9 @@ const ToolbarPlugin = (): JSX.Element => {
       <TextColorPicker fontColor={fontColor} />
       <Divider />
       <InsertLinkButton isLink={isLink} />
+      <EmbedButtons />
       <Divider />
       <InsertListButtons />
-      <Divider />
-      <EmbedButtons />
       <Divider />
       <SaveButton />
       <Divider />
