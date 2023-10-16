@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { PiListNumbersFill, PiListBulletsFill } from 'react-icons/pi';
+import { PiListNumbers, PiListBullets } from 'react-icons/pi';
 import {
   INSERT_ORDERED_LIST_COMMAND,
   INSERT_UNORDERED_LIST_COMMAND,
@@ -12,8 +12,8 @@ type ListTag = 'ol' | 'ul';
 const InsertListButtons = () => {
   const [editor] = useLexicalComposerContext();
   const listTags: { tag: ListTag; icon: ReactNode }[] = [
-    { tag: 'ol', icon: <PiListNumbersFill /> },
-    { tag: 'ul', icon: <PiListBulletsFill /> },
+    { tag: 'ol', icon: <PiListNumbers /> },
+    { tag: 'ul', icon: <PiListBullets /> },
   ];
 
   const makeSelectionList = (tag: ListTag): void => {
