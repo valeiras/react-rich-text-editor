@@ -15,6 +15,7 @@ import { mergeRegister } from '@lexical/utils';
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
 import getSelectedNode from '../../utils/getSelectedNode';
 import { BiSolidEditAlt } from 'react-icons/bi';
+import { HiCheck } from 'react-icons/hi';
 
 import { LOW_PRIORITY } from '../../utils/constants';
 
@@ -45,6 +46,7 @@ const FloatingLinkEditor = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const mouseDownRef = useRef(false);
   const [linkUrl, setLinkUrl] = useState('');
+  const [isTargetBlank, setIsTargetBlank] = useState(true);
   const [lastSelection, setLastSelection] = useState<
     RangeSelection | GridSelection | NodeSelection | null
   >(null);
@@ -64,7 +66,6 @@ const FloatingLinkEditor = ({
     }
     const editorElem = editorRef.current;
     const nativeSelection = window.getSelection();
-    const activeElement = document.activeElement;
 
     if (editorElem === null) {
       return;
@@ -95,17 +96,16 @@ const FloatingLinkEditor = ({
         positionEditorElement(editorElem, rect);
       }
       setLastSelection(selection as RangeSelection);
-    } else if (!activeElement || activeElement.className !== 'link-input') {
-      positionEditorElement(editorElem, null);
-      setLastSelection(null);
-      setIsEditMode(false);
-      setLinkUrl('');
     }
 
     return true;
-  }, [editor, setIsEditMode]);
+  }, [editor]);
 
   useEffect(() => {
+    editor.getEditorState().read(() => {
+      updateLinkEditor();
+    });
+
     return mergeRegister(
       editor.registerUpdateListener(({ editorState }) => {
         editorState.read(() => {
@@ -125,45 +125,58 @@ const FloatingLinkEditor = ({
   }, [editor, updateLinkEditor]);
 
   useEffect(() => {
-    editor.getEditorState().read(() => {
-      updateLinkEditor();
-    });
-  }, [editor, updateLinkEditor]);
-
-  useEffect(() => {
     if (isEditMode && inputRef.current) {
       inputRef.current.focus();
     }
   }, [isEditMode]);
 
+  const insertLink = () => {
+    if (lastSelection !== null) {
+      if (linkUrl !== '') {
+        editor.dispatchCommand(TOGGLE_LINK_COMMAND, {
+          url: linkUrl,
+          target: isTargetBlank ? '_blank' : '',
+        });
+      }
+    }
+  };
+
   return (
     <Wrapper ref={editorRef} className="FloatingLinkEditor">
       {isEditMode ? (
-        <input
-          ref={inputRef}
-          className="link-input"
-          value={linkUrl}
-          onChange={(event) => {
-            setLinkUrl(event.target.value);
-          }}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter') {
-              event.preventDefault();
-              if (lastSelection !== null) {
-                if (linkUrl !== '') {
-                  editor.dispatchCommand(TOGGLE_LINK_COMMAND, linkUrl);
-                }
+        <div className="link-input-container">
+          <input
+            ref={inputRef}
+            value={linkUrl}
+            className="link-input"
+            onChange={(event) => {
+              setLinkUrl(event.target.value);
+            }}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                event.preventDefault();
+                insertLink();
+                setIsEditMode(false);
+              } else if (event.key === 'Escape') {
+                event.preventDefault();
                 setIsEditMode(false);
               }
-            } else if (event.key === 'Escape') {
-              event.preventDefault();
+            }}
+          />
+          <button
+            className="toolbar-btn"
+            tabIndex={0}
+            onClick={() => {
+              insertLink();
               setIsEditMode(false);
-            }
-          }}
-        />
+            }}
+          >
+            <HiCheck />
+          </button>
+        </div>
       ) : (
         <>
-          <div className="link-input">
+          <div className="link-input-container">
             <a href={linkUrl} target="_blank" rel="noopener noreferrer">
               {linkUrl}
             </a>
@@ -179,6 +192,25 @@ const FloatingLinkEditor = ({
           </div>
         </>
       )}
+      <div className="target-blank-selector">
+        <input
+          type="checkbox"
+          checked={isTargetBlank}
+          name="target-blank-checkbox"
+          onChange={(evt) => {
+            setIsTargetBlank(evt.target.checked);
+          }}
+          disabled={!isEditMode}
+        />
+        <label
+          htmlFor="target-blank-checkbox"
+          className={
+            isEditMode ? 'target-blank-label' : 'target-blank-label disabled'
+          }
+        >
+          Se abre en una nueva pestaña
+        </label>
+      </div>
     </Wrapper>
   );
 };
@@ -190,37 +222,39 @@ const Wrapper = styled.div`
   z-index: 100;
   top: -10000px;
   left: -10000px;
-  margin-top: -6px;
+  margin-top: -0.5rem;
   max-width: 300px;
   width: 100%;
   opacity: 0;
   background-color: #fff;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   transition: opacity 0.5s;
+  padding: 0.5rem 0.75rem;
 
-  .link-input {
+  .link-input-container {
     display: flex;
     justify-content: space-between;
-    width: calc(100% - 24px);
+    width: 100%;
     box-sizing: border-box;
-    margin: 8px 12px;
-    padding: 8px 12px;
-    border-radius: 15px;
-    background-color: #eee;
-    font-size: 15px;
-    color: rgb(5, 5, 5);
+    padding: 0.5rem 0.75rem;
+    border-radius: 1rem;
+    background-color: var(--dark-grey);
+    height: 2.5rem;
+  }
+
+  .link-input {
+    font-size: 1rem;
+    background-color: var(--dark-grey);
+    color: black;
     border: 0;
     outline: 0;
     position: relative;
     font-family: inherit;
   }
 
-  .link-edit {
-  }
-
   .link-input a {
-    color: rgb(33, 111, 219);
+    color: blue;
     text-decoration: none;
     display: block;
     white-space: nowrap;
@@ -233,28 +267,14 @@ const Wrapper = styled.div`
     text-decoration: underline;
   }
 
-  .button {
-    width: 20px;
-    height: 20px;
-    display: inline-block;
-    padding: 6px;
-    border-radius: 8px;
-    cursor: pointer;
-    margin: 0 2px;
+  .target-blank-selector {
+    display: flex;
+    gap: 0.25rem;
+    margin-top: 0.25rem;
+    font-size: 0.9rem;
   }
 
-  .button.hovered {
-    width: 20px;
-    height: 20px;
-    display: inline-block;
-    background-color: #eee;
-  }
-
-  .button i {
-    background-size: contain;
-    display: inline-block;
-    height: 20px;
-    width: 20px;
-    vertical-align: -0.25em;
+  .target-blank-label.disabled {
+    color: var(--disabled-color);
   }
 `;

@@ -13,8 +13,7 @@ const InsertLinkButton = ({ isLink }: { isLink: boolean }) => {
   const [editor] = useLexicalComposerContext();
   const [isEditMode, setIsEditMode] = useState(false);
 
-  const insertLink = useCallback(() => {
-    setIsEditMode(true);
+  const toggleLink = useCallback(() => {
     if (!isLink) {
       // We prevent the insertion of the link if no text is selected
       if (window.getSelection()?.isCollapsed) {
@@ -22,7 +21,11 @@ const InsertLinkButton = ({ isLink }: { isLink: boolean }) => {
           'Selecciona el texto que quieras convertir en un hiperenlace'
         );
       } else {
-        editor.dispatchCommand(TOGGLE_LINK_COMMAND, '');
+        setIsEditMode(true);
+        editor.dispatchCommand(TOGGLE_LINK_COMMAND, {
+          url: '',
+          target: '_blank',
+        });
       }
     } else {
       editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
@@ -33,7 +36,7 @@ const InsertLinkButton = ({ isLink }: { isLink: boolean }) => {
     <Wrapper>
       <button
         className={isLink ? 'toolbar-btn active-btn' : 'toolbar-btn'}
-        onClick={insertLink}
+        onClick={toggleLink}
       >
         <BiLinkAlt />
       </button>

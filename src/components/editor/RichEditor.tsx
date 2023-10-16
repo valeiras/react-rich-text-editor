@@ -136,5 +136,6 @@ const Wrapper = styled.div`
     text-decoration: none;
     cursor: pointer;
     font-weight: 600;
+    color: purple;
   }
 `;
