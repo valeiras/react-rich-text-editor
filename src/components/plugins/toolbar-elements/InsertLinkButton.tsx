@@ -15,7 +15,10 @@ const InsertLinkButton = ({ isLink }: { isLink: boolean }) => {
   const insertLink = useCallback(() => {
     setIsEditMode(true);
     if (!isLink) {
-      editor.dispatchCommand(TOGGLE_LINK_COMMAND, '');
+      // We prevent the insertion of the link if no text is selected
+      if (!window.getSelection()?.isCollapsed) {
+        editor.dispatchCommand(TOGGLE_LINK_COMMAND, '');
+      }
     } else {
       editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
     }

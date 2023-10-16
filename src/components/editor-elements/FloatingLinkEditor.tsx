@@ -71,6 +71,7 @@ const FloatingLinkEditor = ({
     }
 
     const rootElement = editor.getRootElement();
+
     if (
       nativeSelection &&
       selection !== null &&
