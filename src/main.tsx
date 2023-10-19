@@ -1,13 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App.js';
 import './index.css';
 
-const rootElement = document.getElementById('root');
-if (!rootElement) throw new Error('Failed to find the root element');
+import r2wc from '@r2wc/react-to-web-component';
 
-ReactDOM.createRoot(rootElement).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+import { RichEditor } from './components';
+export const WebRichEditor = r2wc(RichEditor);
+
+customElements.define('rich-text-editor', WebRichEditor);
