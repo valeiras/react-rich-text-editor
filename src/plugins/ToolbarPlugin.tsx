@@ -27,8 +27,8 @@ import {
   InsertLinkButton,
 } from '../toolbar-elements';
 
-import getSelectedNode from '../../utils/getSelectedNode';
-import { LOW_PRIORITY } from '../../utils/constants';
+import getSelectedNode from '../utils/getSelectedNode';
+import { LOW_PRIORITY } from '../utils/constants';
 import SaveButton from '../toolbar-elements/SaveButton';
 import EmbedButtons from '../toolbar-elements/EmbedButtons';
 import AlignButtons from '../toolbar-elements/AlignButtons';
@@ -169,7 +169,7 @@ const Wrapper = styled.div`
   row-gap: 0.5rem;
   align-items: stretch;
   border-bottom: 1px solid #bbb;
-  padding: 0.3rem;
+  padding: var(--default-padding);
 `;
 
 const Divider = styled.div`

@@ -6,17 +6,11 @@ const GlobalStyles = ({ children }: { children: ReactNode }) => {
 export default GlobalStyles;
 
 const Wrapper = styled.div`
-  *,
-  ::after,
-  ::before {
-    margin: 0;
-    padding: 0;
+  * {
     box-sizing: border-box;
   }
 
   --toolbar-height: 2.2rem;
-  border-radius: var(--border-radius);
-  border: var(--default-border);
 
   font-family: Helvetica, Arial, sans-serif;
   line-height: 1.5;

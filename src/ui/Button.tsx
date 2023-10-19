@@ -10,7 +10,7 @@ import './Button.css';
 
 import { ReactNode } from 'react';
 
-import joinClasses from '../../utils/joinClasses';
+import joinClasses from '../utils/joinClasses';
 
 export default function Button({
   'data-test-id': dataTestId,

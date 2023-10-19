@@ -1,6 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import styled from 'styled-components';
 
+import { useState } from 'react';
 import { HeadingNode } from '@lexical/rich-text';
 import { ListItemNode, ListNode } from '@lexical/list';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
@@ -11,6 +12,7 @@ import { ListPlugin } from '@lexical/react/LexicalListPlugin';
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import { AutoLinkNode, LinkNode } from '@lexical/link';
 import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
+import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import LexicalClickableLinkPlugin from '@lexical/react/LexicalClickableLinkPlugin';
 
@@ -19,9 +21,10 @@ import {
   AutoLinkPlugin,
   YouTubePlugin,
   AutoEmbedPlugin,
-} from './plugins';
+  DraggableBlockPlugin,
+} from '../plugins';
 import GlobalStyles from './GlobalStyles';
-import { YouTubeNode } from './nodes/YouTubeNode';
+import { YouTubeNode } from '../nodes/YouTubeNode';
 
 const theme = {
   heading: {
@@ -68,6 +71,15 @@ const RichEditor = (): JSX.Element => {
     ],
   };
 
+  const [floatingAnchorElem, setFloatingAnchorElem] =
+    useState<HTMLDivElement | null>(null);
+
+  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
+    if (_floatingAnchorElem !== null) {
+      setFloatingAnchorElem(_floatingAnchorElem);
+    }
+  };
+
   return (
     <GlobalStyles>
       <Wrapper className="RichEditor">
@@ -77,10 +89,16 @@ const RichEditor = (): JSX.Element => {
           <LinkPlugin />
           <LexicalClickableLinkPlugin />
           <AutoLinkPlugin />
+          <TabIndentationPlugin />
+          {floatingAnchorElem && (
+            <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
+          )}
           <RichTextPlugin
             contentEditable={
               <div className="editor-scroller">
-                <ContentEditable className="content-editable" />
+                <div className="editor" ref={onRef}>
+                  <ContentEditable className="content-editable" />
+                </div>
               </div>
             }
             placeholder={<div className="placeholder"></div>}
@@ -99,10 +117,35 @@ export default RichEditor;
 
 const Wrapper = styled.div`
   position: relative;
+  border-radius: var(--border-radius);
+  border: var(--default-border);
+  overflow: hidden;
 
-  .editor-scroller {
+  /* .editor-scroller {
     height: 20rem;
     overflow-y: scroll;
+  }
+  .editor {
+    height: 100%;
+    overflow: hidden;
+  } */
+
+  .editor-scroller {
+    min-height: 150px;
+    border: 0;
+    display: flex;
+    position: relative;
+    outline: 0;
+    z-index: 0;
+    overflow: auto;
+    resize: vertical;
+  }
+
+  .editor {
+    flex: auto;
+    position: relative;
+    resize: vertical;
+    z-index: -1;
   }
   .placeholder {
     position: absolute;
@@ -156,9 +199,10 @@ const Wrapper = styled.div`
   }
 
   .rich-editor-embed-block {
-    user-select: none;
+    /* user-select: none; */
+    height: fit-content;
   }
   .rich-editor-embed-block-focus {
-    /* outline: 2px solid rgb(60, 132, 244); */
+    outline: 2px dashed #eee;
   }
 `;

@@ -6,7 +6,7 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { useCallback, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import FloatingLinkEditor from '../floating-editors/FloatingLinkEditor';
+import FloatingLinkEditor from '../components/floating-editors/FloatingLinkEditor';
 import { toast } from 'react-toastify';
 
 const InsertLinkButton = ({ isLink }: { isLink: boolean }) => {
