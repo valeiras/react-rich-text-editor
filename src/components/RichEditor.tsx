@@ -80,6 +80,13 @@ const RichEditor = (): JSX.Element => {
     }
   };
 
+  // For some reason, typescript doesn't acept the usual ternary operator approach
+  const SafeDraggablePlugin = () => {
+    if (!floatingAnchorElem) return null;
+
+    return <DraggableBlockPlugin anchorElem={floatingAnchorElem} />;
+  };
+
   return (
     <GlobalStyles>
       <Wrapper className="RichEditor">
@@ -90,9 +97,7 @@ const RichEditor = (): JSX.Element => {
           <LexicalClickableLinkPlugin />
           <AutoLinkPlugin />
           <TabIndentationPlugin />
-          {floatingAnchorElem && (
-            <DraggableBlockPlugin anchorElem={floatingAnchorElem} />
-          )}
+          <SafeDraggablePlugin />
           <RichTextPlugin
             contentEditable={
               <div className="editor-scroller">
@@ -131,7 +136,7 @@ const Wrapper = styled.div`
   } */
 
   .editor-scroller {
-    min-height: 150px;
+    min-height: 20rem;
     border: 0;
     display: flex;
     position: relative;
@@ -199,7 +204,7 @@ const Wrapper = styled.div`
   }
 
   .rich-editor-embed-block {
-    /* user-select: none; */
+    user-select: none;
     height: fit-content;
   }
   .rich-editor-embed-block-focus {
