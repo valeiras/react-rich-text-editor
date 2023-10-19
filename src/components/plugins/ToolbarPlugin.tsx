@@ -169,7 +169,7 @@ const Wrapper = styled.div`
   row-gap: 0.5rem;
   align-items: stretch;
   border-bottom: 1px solid #bbb;
-  padding: var(--default-padding);
+  padding: 0.3rem;
 `;
 
 const Divider = styled.div`
