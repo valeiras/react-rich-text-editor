@@ -19,8 +19,9 @@ import {
   AutoLinkPlugin,
   YouTubePlugin,
   AutoEmbedPlugin,
-} from '../plugins';
-import { YouTubeNode } from '../nodes/YouTubeNode';
+} from './plugins';
+import GlobalStyles from './GlobalStyles';
+import { YouTubeNode } from './nodes/YouTubeNode';
 
 const theme = {
   heading: {
@@ -68,40 +69,36 @@ const RichEditor = (): JSX.Element => {
   };
 
   return (
-    <Wrapper className="RichEditor">
-      <LexicalComposer initialConfig={initialConfig}>
-        <ToolbarPlugin />
-        <ListPlugin />
-        <LinkPlugin />
-        <LexicalClickableLinkPlugin />
-        <AutoLinkPlugin />
-        <RichTextPlugin
-          contentEditable={
-            <div className="editor-scroller">
-              <ContentEditable className="content-editable" />
-            </div>
-          }
-          placeholder={<div className="placeholder"></div>}
-          ErrorBoundary={LexicalErrorBoundary}
-        />
-        <HistoryPlugin />
-        <YouTubePlugin />
-        <AutoEmbedPlugin />
-        <AutoFocusPlugin />
-      </LexicalComposer>
-    </Wrapper>
+    <GlobalStyles>
+      <Wrapper className="RichEditor">
+        <LexicalComposer initialConfig={initialConfig}>
+          <ToolbarPlugin />
+          <ListPlugin />
+          <LinkPlugin />
+          <LexicalClickableLinkPlugin />
+          <AutoLinkPlugin />
+          <RichTextPlugin
+            contentEditable={
+              <div className="editor-scroller">
+                <ContentEditable className="content-editable" />
+              </div>
+            }
+            placeholder={<div className="placeholder"></div>}
+            ErrorBoundary={LexicalErrorBoundary}
+          />
+          <HistoryPlugin />
+          <YouTubePlugin />
+          <AutoEmbedPlugin />
+          <AutoFocusPlugin />
+        </LexicalComposer>
+      </Wrapper>
+    </GlobalStyles>
   );
 };
 export default RichEditor;
 
 const Wrapper = styled.div`
   position: relative;
-
-  --toolbar-height: 2.2rem;
-  border-radius: var(--border-radius);
-  border: var(--default-border);
-  background-color: white;
-  overflow: hidden;
 
   .editor-scroller {
     height: 20rem;
