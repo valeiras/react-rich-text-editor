@@ -25,8 +25,15 @@ const Wrapper = styled.div`
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
   p {
     margin: 0;
+    padding: 0;
   }
 
   .content-editable {

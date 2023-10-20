@@ -5,6 +5,7 @@ export { default as FontSizeDropDown } from './FontSizeDropDown';
 export { default as HeadingTypeDropDown } from './HeadingTypeDropDown';
 export { default as InsertLinkButton } from './InsertLinkButton';
 export { default as InsertListButtons } from './InsertListButtons';
+export { default as InsertImageButton } from './InsertImageButton';
 export { default as StyleDropDown } from './StyleDropDown';
 export { default as TextColorPicker } from './TextColorPicker';
 export { default as TextStylingButtons } from './TextStylingButtons';

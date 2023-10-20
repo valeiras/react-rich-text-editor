@@ -124,12 +124,12 @@ const RichEditor = (): JSX.Element => {
 export default RichEditor;
 
 const Wrapper = styled.div`
-  position: relative;
+  /* position: relative; */
   border-radius: var(--border-radius);
   border: var(--default-border);
+  width: 800px;
   overflow: hidden;
   resize: both;
-  width: 800px;
 
   .editor-scroller {
     min-height: 20rem;
@@ -146,9 +146,11 @@ const Wrapper = styled.div`
   .editor {
     flex: auto;
     position: relative;
+    border-radius: var(--border-radius);
     resize: vertical;
     z-index: -1;
   }
+
   .placeholder {
     position: absolute;
     top: calc(var(--toolbar-height) + var(--editor-padding));
