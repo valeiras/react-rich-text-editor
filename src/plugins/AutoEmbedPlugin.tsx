@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import styled from 'styled-components';
 
 import type { LexicalEditor } from 'lexical';
 import { BiLogoYoutube, BiLogoTwitter } from 'react-icons/bi';
@@ -226,11 +227,11 @@ export function AutoEmbedDialog({
   };
 
   return (
-    <div style={{ width: '600px' }}>
-      <div className="Input__wrapper">
+    <Wrapper className="AutoEmbedDialog">
+      <div className="input-wrapper">
         <input
           type="text"
-          className="Input__input"
+          className="input"
           placeholder={embedConfig.exampleUrl}
           value={text}
           data-test-id={`${embedConfig.type}-embed-modal-url`}
@@ -250,7 +251,7 @@ export function AutoEmbedDialog({
           Insertar
         </Button>
       </DialogActions>
-    </div>
+    </Wrapper>
   );
 }
 
@@ -323,3 +324,12 @@ export default function AutoEmbedPlugin(): JSX.Element {
     </>
   );
 }
+
+const Wrapper = styled.div`
+  width: 600px;
+  .input {
+    outline: none;
+    border: none;
+    width: 100%;
+  }
+`;

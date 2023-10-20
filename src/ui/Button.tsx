@@ -6,7 +6,7 @@
  *
  */
 
-import './Button.css';
+import styled from 'styled-components';
 
 import { ReactNode } from 'react';
 
@@ -30,12 +30,11 @@ export default function Button({
   title?: string;
 }): JSX.Element {
   return (
-    <button
+    <StyledButton
       disabled={disabled}
       className={joinClasses(
-        'Button__root',
-        disabled && 'Button__disabled',
-        small && 'Button__small',
+        disabled && 'button-disabled',
+        small && 'button-small',
         className
       )}
       onClick={onClick}
@@ -44,6 +43,32 @@ export default function Button({
       {...(dataTestId && { 'data-test-id': dataTestId })}
     >
       {children}
-    </button>
+    </StyledButton>
   );
 }
+
+const StyledButton = styled.button`
+  padding: 1rem 0.5rem;
+  border: none;
+  background-color: #eee;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+
+  &:hover {
+    background-color: #ddd;
+  }
+
+  .button-small {
+    padding: 0.5rem 0.25rem;
+    font-size: 0.8rem;
+  }
+
+  &.button-disabled {
+    cursor: not-allowed;
+  }
+
+  &.button-disabled:hover {
+    background-color: #eee;
+  }
+`;

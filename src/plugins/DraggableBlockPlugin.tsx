@@ -439,18 +439,18 @@ export default function DraggableBlockPlugin({
 const Wrapper = styled.div`
   .draggable-block-menu {
     border-radius: 4px;
-    padding: 2px 1px;
+    padding: 1px 1px;
     cursor: grab;
     opacity: 0;
     position: absolute;
-    left: -5px;
+    left: -4px;
     top: -1px;
     will-change: transform;
   }
 
   .draggable-block-menu .icon {
-    width: 16px;
-    height: 16px;
+    width: 1rem;
+    height: 1rem;
     opacity: 0.3;
     background-image: url(https://rich-text-editor.desarrolloennubo.es/draggable-block-menu.svg);
   }

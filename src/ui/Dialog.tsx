@@ -6,7 +6,7 @@
  *
  */
 
-import './Dialog.css';
+import styled from 'styled-components';
 
 import { ReactNode } from 'react';
 
@@ -16,7 +16,11 @@ type Props = Readonly<{
 }>;
 
 export function DialogButtonsList({ children }: Props): JSX.Element {
-  return <div className="DialogButtonsList">{children}</div>;
+  return (
+    <StyledDialogButtonsList className="DialogButtonsList">
+      {children}
+    </StyledDialogButtonsList>
+  );
 }
 
 export function DialogActions({
@@ -24,8 +28,26 @@ export function DialogActions({
   children,
 }: Props): JSX.Element {
   return (
-    <div className="DialogActions" data-test-id={dataTestId}>
+    <StyledDialogActions className="DialogActions" data-test-id={dataTestId}>
       {children}
-    </div>
+    </StyledDialogActions>
   );
 }
+
+const StyledDialogButtonsList = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  margin-top: 20px;
+
+  button {
+    margin-bottom: 20px;
+  }
+`;
+
+const StyledDialogActions = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  margin-top: 20px;
+`;

@@ -277,4 +277,12 @@ const Wrapper = styled.div`
   .target-blank-label.disabled {
     color: var(--disabled-color);
   }
+
+  button {
+    padding: 0.7rem 0.2rem;
+    border-radius: 50%;
+  }
+  button:hover {
+    background-color: #ccc;
+  }
 `;

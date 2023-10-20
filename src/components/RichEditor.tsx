@@ -125,15 +125,8 @@ const Wrapper = styled.div`
   border-radius: var(--border-radius);
   border: var(--default-border);
   overflow: hidden;
-
-  /* .editor-scroller {
-    height: 20rem;
-    overflow-y: scroll;
-  }
-  .editor {
-    height: 100%;
-    overflow: hidden;
-  } */
+  resize: both;
+  width: 800px;
 
   .editor-scroller {
     min-height: 20rem;
@@ -142,8 +135,9 @@ const Wrapper = styled.div`
     position: relative;
     outline: 0;
     z-index: 0;
-    overflow: auto;
-    resize: vertical;
+    overflow-y: scroll;
+    width: 100%;
+    height: 100%;
   }
 
   .editor {
@@ -205,8 +199,11 @@ const Wrapper = styled.div`
 
   .rich-editor-embed-block {
     user-select: none;
-    height: fit-content;
+    /* height: fit-content; */
+    padding: 7px;
+    padding-bottom: 0;
   }
+
   .rich-editor-embed-block-focus {
     outline: 2px dashed #eee;
   }

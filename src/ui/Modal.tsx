@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
-import './Modal.css';
+import styled from 'styled-components';
 
 import { FaTimes } from 'react-icons/fa';
 import { ReactNode, useEffect, useRef } from 'react';
@@ -67,20 +66,20 @@ function PortalImpl({
   }, [closeOnClickOutside, onClose]);
 
   return (
-    <div className="Modal__overlay" role="dialog">
-      <div className="Modal__modal" tabIndex={-1} ref={modalRef}>
-        <h2 className="Modal__title">{title}</h2>
+    <Wrapper className="modal-container" role="dialog">
+      <div className="modal" tabIndex={-1} ref={modalRef}>
+        <h2 className="modal-title">{title}</h2>
         <button
-          className="Modal__closeButton"
+          className="modal-close-button"
           aria-label="Close modal"
           type="button"
           onClick={onClose}
         >
           <FaTimes />
         </button>
-        <div className="Modal__content">{children}</div>
+        <div className="modal-content">{children}</div>
       </div>
-    </div>
+    </Wrapper>
   );
 }
 
@@ -106,3 +105,64 @@ export default function Modal({
     document.body
   );
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  flex-direction: column;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background-color: rgba(40, 40, 40, 0.6);
+  flex-grow: 0px;
+  flex-shrink: 1px;
+  z-index: 100;
+  font-family: inherit;
+
+  .modal {
+    padding: 20px;
+    min-height: 100px;
+    min-width: 300px;
+    display: flex;
+    flex-grow: 0px;
+    background-color: #fff;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 0 20px 0 #444;
+    border-radius: var(--border-radius);
+  }
+
+  .modal-title {
+    color: #444;
+    margin: 0px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .modal-close-button {
+    border: 0px;
+    position: absolute;
+    right: 20px;
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #eee;
+  }
+
+  .modal-close-button:hover {
+    background-color: #ddd;
+  }
+
+  .modal-content {
+    padding-top: 20px;
+    outline: 0;
+  }
+`;

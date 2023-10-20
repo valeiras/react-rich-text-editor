@@ -29,7 +29,6 @@ import {
 
 import getSelectedNode from '../utils/getSelectedNode';
 import { LOW_PRIORITY } from '../utils/constants';
-import SaveButton from '../toolbar-elements/SaveButton';
 import EmbedButtons from '../toolbar-elements/EmbedButtons';
 import AlignButtons from '../toolbar-elements/AlignButtons';
 
@@ -152,8 +151,6 @@ const ToolbarPlugin = (): JSX.Element => {
       <EmbedButtons />
       <Divider />
       <InsertListButtons />
-      <Divider />
-      <SaveButton />
       <Divider />
     </Wrapper>
   );
