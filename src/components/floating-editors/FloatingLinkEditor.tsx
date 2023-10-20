@@ -44,7 +44,6 @@ const FloatingLinkEditor = ({
 }) => {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const mouseDownRef = useRef(false);
   const [linkUrl, setLinkUrl] = useState('');
   const [isTargetBlank, setIsTargetBlank] = useState(true);
   const [lastSelection, setLastSelection] = useState<
@@ -61,6 +60,7 @@ const FloatingLinkEditor = ({
       } else if ($isLinkNode(node)) {
         setLinkUrl(node.getURL());
       } else {
+        setIsEditMode(false);
         setLinkUrl('');
       }
     }
@@ -92,14 +92,12 @@ const FloatingLinkEditor = ({
         rect = domRange.getBoundingClientRect();
       }
 
-      if (!mouseDownRef.current) {
-        positionEditorElement(editorElem, rect);
-      }
+      positionEditorElement(editorElem, rect);
       setLastSelection(selection as RangeSelection);
     }
 
     return true;
-  }, [editor]);
+  }, [editor, setIsEditMode]);
 
   useEffect(() => {
     editor.getEditorState().read(() => {
@@ -177,7 +175,12 @@ const FloatingLinkEditor = ({
       ) : (
         <>
           <div className="link-input-container">
-            <a href={linkUrl} target="_blank" rel="noopener noreferrer">
+            <a
+              href={linkUrl}
+              className="link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {linkUrl}
             </a>
             <button
@@ -235,6 +238,7 @@ const Wrapper = styled.div`
   .link-input-container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
     box-sizing: border-box;
     padding: 0.5rem 0.75rem;
@@ -243,27 +247,28 @@ const Wrapper = styled.div`
     height: 2.5rem;
   }
 
+  .link,
   .link-input {
     font-size: 1rem;
     background-color: var(--dark-grey);
-    color: black;
     border: 0;
     outline: 0;
     position: relative;
     font-family: inherit;
+    margin: 0;
+    padding: 0;
   }
 
-  .link-input a {
+  .link-input {
+    color: black;
+  }
+
+  .link {
     color: blue;
     text-decoration: none;
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    margin-right: 30px;
-    text-overflow: ellipsis;
   }
 
-  .link-input a:hover {
+  .link:hover {
     text-decoration: underline;
   }
 

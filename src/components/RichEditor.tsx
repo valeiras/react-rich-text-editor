@@ -25,6 +25,8 @@ import {
 } from '../plugins';
 import GlobalStyles from './GlobalStyles';
 import { YouTubeNode } from '../nodes/YouTubeNode';
+import { ToastContainer, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const theme = {
   heading: {
@@ -89,6 +91,7 @@ const RichEditor = (): JSX.Element => {
 
   return (
     <GlobalStyles>
+      <ToastContainer position="top-center" transition={Slide} />
       <Wrapper className="RichEditor">
         <LexicalComposer initialConfig={initialConfig}>
           <ToolbarPlugin />
