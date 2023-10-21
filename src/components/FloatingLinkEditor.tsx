@@ -13,11 +13,11 @@ import {
 } from 'lexical';
 import { mergeRegister } from '@lexical/utils';
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
-import getSelectedNode from '../../utils/getSelectedNode';
+import getSelectedNode from '../utils/getSelectedNode';
 import { BiSolidEditAlt } from 'react-icons/bi';
 import { HiCheck } from 'react-icons/hi';
 
-import { LOW_PRIORITY } from '../../utils/constants';
+import { LOW_PRIORITY } from '../utils/constants';
 
 const positionEditorElement = (editor: HTMLElement, rect: DOMRect | null) => {
   if (rect === null) {

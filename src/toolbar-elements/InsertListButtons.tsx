@@ -9,7 +9,7 @@ import { ReactNode } from 'react';
 
 type ListTag = 'ol' | 'ul';
 
-const InsertListButtons = () => {
+const InsertListButtons = (): JSX.Element => {
   const [editor] = useLexicalComposerContext();
   const listTags: { tag: ListTag; icon: ReactNode; title: string }[] = [
     { tag: 'ol', icon: <PiListNumbers />, title: 'Insertar lista numerada' },

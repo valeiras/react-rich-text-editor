@@ -2,7 +2,7 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { EmbedConfigs } from '../plugins/AutoEmbedPlugin';
 import { INSERT_EMBED_COMMAND } from '@lexical/react/LexicalAutoEmbedPlugin';
 
-const EmbedButtons = () => {
+const EmbedButtons = (): JSX.Element => {
   const [editor] = useLexicalComposerContext();
   return (
     <>

@@ -1,110 +1,51 @@
-import styled from 'styled-components';
+/* eslint-disable react-refresh/only-export-components */
 import { BiImageAlt } from 'react-icons/bi';
-import { useState } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { useState, useEffect, createContext, useContext } from 'react';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { SELECTION_CHANGE_COMMAND } from 'lexical';
+import { LOW_PRIORITY } from '../utils/constants';
+import InsertImageMenu from './InsertImageMenu';
 
-const InsertImageButton = () => {
-  const [showAvailableImages, setShowAvailableImages] = useState(false);
+type ContextType = {
+  setShowImageMenu: React.Dispatch<React.SetStateAction<boolean>> | null;
+};
+const ImageMenuContext = createContext<ContextType>({} as ContextType);
 
-  const ImageInput = () => {
-    const { getRootProps, getInputProps } = useDropzone();
+const InsertImageButton = (): JSX.Element => {
+  const [showImageMenu, setShowImageMenu] = useState(false);
+  const [editor] = useLexicalComposerContext();
 
-    return (
-      <div className="image-input">
-        <h4>Subida:</h4>
-        <div {...getRootProps()}>
-          <input {...getInputProps({ accept: 'images/*' })} />
-          <div className="fake-img-input">
-            <p>
-              Arrastra una imagen o haz
-              <span className="fake-btn"> click aquí</span> para subirla
-            </p>
-          </div>
-        </div>
-      </div>
+  useEffect(() => {
+    return editor.registerCommand(
+      SELECTION_CHANGE_COMMAND,
+      () => {
+        setShowImageMenu(false);
+        return true;
+      },
+      LOW_PRIORITY
     );
-  };
-
-  const AvailableImages = () => {
-    return (
-      <div className="available-images">
-        <h4>Imágenes disponibles:</h4>
-        <p>Por ahora no hay ninguna imagen en el servidor</p>
-      </div>
-    );
-  };
+  }, [editor]);
 
   return (
-    <Wrapper className="InsertImageButton">
+    <div className="InsertImageButton">
       <button
         className="toolbar-btn"
         onClick={() => {
-          setShowAvailableImages(!showAvailableImages);
+          setShowImageMenu(!showImageMenu);
         }}
       >
         <BiImageAlt />
       </button>
-      {showAvailableImages && (
-        <div className="image-menu">
-          <AvailableImages />
-          <ImageInput />
-        </div>
+      {showImageMenu && (
+        <ImageMenuContext.Provider value={{ setShowImageMenu }}>
+          <InsertImageMenu />
+        </ImageMenuContext.Provider>
       )}
-    </Wrapper>
+    </div>
   );
 };
 export default InsertImageButton;
 
-const Wrapper = styled.div`
-  p {
-    font-size: 0.9rem;
-  }
-
-  .image-menu {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 250px;
-    flex-direction: column;
-    gap: 1rem;
-    position: absolute;
-    z-index: 10;
-    border: var(--default-border);
-    background-color: white;
-    border-radius: var(--border-radius);
-    padding: 0.5rem 1rem;
-    margin-top: var(--default-padding);
-    box-shadow: var(--shadow-1);
-  }
-
-  .image-input {
-    width: 100%;
-  }
-
-  .fake-btn {
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  .fake-img-input {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px dashed red;
-    height: 150px;
-    border-radius: var(--border-radius);
-    background-color: rgba(255, 0, 0, 0.2);
-    /* color: rgba(0, 0, 0, 0.6); */
-    padding: var(--default-padding) 1rem;
-    cursor: pointer;
-  }
-  .fake-img-input p {
-    text-align: center;
-  }
-
-  .fake-img-input,
-  h4 {
-    margin-bottom: 0.5rem;
-  }
-`;
+export const useImageMenuContext = () => {
+  return useContext(ImageMenuContext);
+};

@@ -2,7 +2,7 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { BiSolidSave } from 'react-icons/bi';
 import { $generateHtmlFromNodes } from '@lexical/html';
 
-const SaveButton = () => {
+const SaveButton = (): JSX.Element => {
   const [editor] = useLexicalComposerContext();
 
   const saveEditorState = async () => {
