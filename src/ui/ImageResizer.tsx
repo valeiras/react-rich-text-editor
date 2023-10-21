@@ -26,14 +26,14 @@ const Direction = {
 export default function ImageResizer({
   onResizeStart,
   onResizeEnd,
-  buttonRef,
+  // buttonRef,
   imageRef,
   maxWidth,
   editor,
-  showCaption,
-  setShowCaption,
-  captionsEnabled,
-}: {
+}: // showCaption,
+// setShowCaption,
+// captionsEnabled,
+{
   editor: LexicalEditor;
   buttonRef: { current: null | HTMLButtonElement };
   imageRef: { current: null | HTMLElement };

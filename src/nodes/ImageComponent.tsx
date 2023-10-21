@@ -42,7 +42,6 @@ import {
   KEY_ESCAPE_COMMAND,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
-import * as React from 'react';
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 
 // import {createWebsocketProvider} from '../collaboration';
