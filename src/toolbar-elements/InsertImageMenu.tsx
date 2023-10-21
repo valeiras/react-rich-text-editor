@@ -2,6 +2,11 @@ import styled from 'styled-components';
 import { useDropzone } from 'react-dropzone';
 import { useQuery } from '@tanstack/react-query';
 import { useImageMenuContext } from './InsertImageButton';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import {
+  INSERT_IMAGE_COMMAND,
+  InsertImagePayload,
+} from '../plugins/ImagesPlugin';
 
 const InsertImageMenu = () => {
   return (
@@ -56,8 +61,12 @@ type dataType = { result: string; pictures: pictureType[] };
 const ImageList = ({ data }: { data: dataType }): JSX.Element => {
   const { pictures } = data;
   const { setShowImageMenu } = useImageMenuContext();
+  const [editor] = useLexicalComposerContext();
+
   const insertImage = (image: string) => {
     console.log(image);
+    const imagePayload: InsertImagePayload = { src: image, altText: '' };
+    editor.dispatchCommand(INSERT_IMAGE_COMMAND, imagePayload);
     if (setShowImageMenu) {
       setShowImageMenu(false);
     }

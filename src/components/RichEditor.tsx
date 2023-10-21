@@ -27,6 +27,8 @@ import GlobalStyles from './GlobalStyles';
 import { YouTubeNode } from '../nodes/YouTubeNode';
 import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ImagesPlugin from '../plugins/ImagesPlugin';
+import { ImageNode } from '../nodes/ImageNode';
 
 const theme = {
   heading: {
@@ -52,6 +54,7 @@ const theme = {
     base: 'rich-editor-embed-block',
     focus: 'rich-editor-embed-block-focus',
   },
+  image: 'rich-editor-image',
 };
 
 const onError = (error: Error): void => {
@@ -70,6 +73,7 @@ const RichEditor = (): JSX.Element => {
       LinkNode,
       AutoLinkNode,
       YouTubeNode,
+      ImageNode,
     ],
   };
 
@@ -116,6 +120,7 @@ const RichEditor = (): JSX.Element => {
           <YouTubePlugin />
           <AutoEmbedPlugin />
           <AutoFocusPlugin />
+          <ImagesPlugin />
         </LexicalComposer>
       </Wrapper>
     </GlobalStyles>
@@ -211,5 +216,85 @@ const Wrapper = styled.div`
 
   .rich-editor-embed-block-focus {
     outline: 2px dashed #eee;
+  }
+
+  .rich-editor-image {
+    cursor: default;
+    display: inline-block;
+    position: relative;
+    user-select: none;
+  }
+
+  .rich-editor-image img {
+    max-width: 100%;
+    cursor: default;
+  }
+
+  .rich-editor-image img.focused {
+    outline: 2px solid rgb(60, 132, 244);
+    user-select: none;
+  }
+
+  .rich-editor-image .image-caption-container .tree-view-output {
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .rich-editor-image .image-caption-container {
+    display: block;
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid #fff;
+    background-color: rgba(255, 255, 255, 0.9);
+    min-width: 100px;
+    color: #000;
+    overflow: hidden;
+  }
+
+  .rich-editor-image .image-caption-button {
+    display: block;
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    width: 30%;
+    padding: 10px;
+    margin: 0 auto;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    min-width: 100px;
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .rich-editor-image .image-caption-button:hover {
+    background-color: rgba(60, 132, 244, 0.5);
+  }
+
+  .rich-editor-image .image-edit-button {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    background-image: url(/src/images/icons/pencil-fill.svg);
+    background-size: 16px;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 35px;
+    height: 35px;
+    vertical-align: -0.25em;
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .rich-editor-image .image-edit-button:hover {
+    background-color: rgba(60, 132, 244, 0.1);
   }
 `;
