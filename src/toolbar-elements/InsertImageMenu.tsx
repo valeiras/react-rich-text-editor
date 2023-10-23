@@ -15,7 +15,7 @@ const url = 'https://www.comparalux.es/app/webExterna/fotoBlog.php';
 
 const InsertImageMenu = () => {
   return (
-    <Wrapper className="image-menu">
+    <Wrapper className="InsertImageMenu">
       <ImageSelector />
       <ImageInput />
     </Wrapper>

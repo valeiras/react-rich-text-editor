@@ -9,3 +9,4 @@ export { default as InsertImageButton } from './InsertImageButton';
 export { default as StyleDropDown } from './StyleDropDown';
 export { default as TextColorPicker } from './TextColorPicker';
 export { default as TextStylingButtons } from './TextStylingButtons';
+export { default as InsertTableButton } from './InsertTableButton';

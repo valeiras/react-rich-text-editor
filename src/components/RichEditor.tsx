@@ -15,6 +15,7 @@ import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import LexicalClickableLinkPlugin from '@lexical/react/LexicalClickableLinkPlugin';
+import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
 
 import {
   ToolbarPlugin,
@@ -29,6 +30,7 @@ import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ImagesPlugin from '../plugins/ImagesPlugin';
 import { ImageNode } from '../nodes/ImageNode';
+import { TableCellNode, TableNode, TableRowNode } from '@lexical/table';
 
 const theme = {
   heading: {
@@ -55,6 +57,9 @@ const theme = {
     focus: 'rich-editor-embed-block-focus',
   },
   image: 'rich-editor-image',
+  table: 'rich-editor-table',
+  tableCell: 'rich-editor-table-cell',
+  tableCellHeader: 'rich-editor-table-cell-header',
 };
 
 const onError = (error: Error): void => {
@@ -74,6 +79,9 @@ const RichEditor = (): JSX.Element => {
       AutoLinkNode,
       YouTubeNode,
       ImageNode,
+      TableNode,
+      TableCellNode,
+      TableRowNode,
     ],
   };
 
@@ -109,6 +117,7 @@ const RichEditor = (): JSX.Element => {
       <ToastContainer position="top-center" transition={Slide} />
       <Wrapper className="RichEditor">
         <LexicalComposer initialConfig={initialConfig}>
+          <TablePlugin />
           <ToolbarPlugin />
           <ListPlugin />
           <LinkPlugin />
@@ -308,5 +317,18 @@ const Wrapper = styled.div`
 
   .rich-editor-image .image-edit-button:hover {
     background-color: rgba(60, 132, 244, 0.1);
+  }
+
+  .rich-editor-table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 1rem;
+  }
+
+  th.rich-editor-table-cell,
+  td.rich-editor-table-cell {
+    min-width: 5rem;
+    border: var(--default-border);
+    padding: 0 0.5rem;
   }
 `;

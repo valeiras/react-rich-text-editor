@@ -72,6 +72,19 @@ const Wrapper = styled.div<{ $editorPadding: string }>`
     gap: 0.1rem;
   }
 
+  .btn {
+    padding: 1rem 0.5rem;
+    border: none;
+    background-color: #eee;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: var(--transition);
+  }
+  .btn:hover {
+    background-color: #ddd;
+  }
+
   .toolbar-btn {
     border-radius: var(--border-radius);
     cursor: pointer;
