@@ -9,7 +9,7 @@ import {
   InsertImagePayload,
 } from '../plugins/ImagesPlugin';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 
 const url = 'https://www.comparalux.es/app/webExterna/fotoBlog.php';
 
@@ -106,7 +106,6 @@ const ImageInput = (): JSX.Element => {
         });
         console.log(response);
       } catch (error) {
-        toast.error(error?.message);
         console.log(error);
       }
     });
