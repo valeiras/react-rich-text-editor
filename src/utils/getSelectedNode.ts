@@ -6,6 +6,7 @@ const getSelectedNode = (selection: RangeSelection): LexicalNode => {
   const focus = selection.focus;
   const anchorNode = selection.anchor.getNode();
   const focusNode = selection.focus.getNode();
+
   if (anchorNode === focusNode) {
     return anchorNode;
   }

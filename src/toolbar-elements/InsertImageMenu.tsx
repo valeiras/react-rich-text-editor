@@ -150,7 +150,7 @@ const ImageInput = (): JSX.Element => {
 };
 
 const Wrapper = styled.div`
-  --menu-width: 200px;
+  --menu-width: 400px;
 
   display: flex;
   justify-content: center;
@@ -186,7 +186,7 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: center;
     border: 1px dashed red;
-    height: 150px;
+    height: 100px;
     border-radius: var(--border-radius);
     background-color: rgba(255, 0, 0, 0.2);
     padding: var(--default-padding) 1rem;
@@ -215,22 +215,35 @@ const Wrapper = styled.div`
   }
 
   .image-list {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
     width: 100%;
-    height: var(--menu-width);
+    height: calc(0.5 * var(--menu-width));
     overflow: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    gap: 1rem;
+    gap: 2px;
   }
 
   .image-list::-webkit-scrollbar {
-    display: none;
+    width: 5px;
+  }
+
+  .image-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  .image-list::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+  .image-list::-webkit-scrollbar-thumb:hover {
+    background: #555;
   }
 
   .image-item {
     width: 100%;
+    /* height: var(--menu-width); */
   }
 
   .image-btn {
