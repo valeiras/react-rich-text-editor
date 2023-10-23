@@ -86,7 +86,7 @@ const RichEditor = (): JSX.Element => {
   };
 
   const saveEditorState = () => {
-    console.log('Save!!');
+    console.log('¡Evento "save-editor-state" recibido!');
   };
 
   useEffect(() => {

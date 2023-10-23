@@ -24,6 +24,11 @@
       <button onclick="generateSaveEvent()">Click</button>
     </div>
     <script type="module" src="/src/main.tsx"></script>
-    <script src="index.js"></script>
+    <script>
+      const generateSaveEvent = () => {
+        const event = new Event('save-editor-state');
+        dispatchEvent(event);
+      };
+    </script>
   </body>
 </html>
