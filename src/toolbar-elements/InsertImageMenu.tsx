@@ -38,7 +38,7 @@ const ImageSelector = (): JSX.Element => {
 
   return (
     <div className="image-selector">
-      <h4 className="title">Imágenes disponibles:</h4>
+      <h4 className="title">Imágenes:</h4>
       {isPending ? (
         <div className="loading-container">
           <div className="loading-indicator"></div>
@@ -101,9 +101,9 @@ const ImageInput = (): JSX.Element => {
   const onDrop = useCallback((acceptedFiles: File[]) => {
     acceptedFiles.forEach(async (file) => {
       try {
-        const response = await axios.post(url, {
-          file: file,
-        });
+        const form = new FormData();
+        form.append('file', file, 'inputFile');
+        const response = await axios.post(url, form);
         console.log(response);
       } catch (error) {
         console.log(error);
@@ -123,8 +123,9 @@ const ImageInput = (): JSX.Element => {
         <input {...getInputProps()} />
         <div className="fake-img-input">
           <p>
-            Arrastra una imagen o haz
-            <span className="fake-btn"> click aquí</span> para subirla
+            Arrastra o haz
+            <span className="fake-btn"> click aquí</span> para subir una nueva
+            imagen
           </p>
         </div>
       </div>
@@ -201,7 +202,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: calc(1.5 * var(--menu-width));
+    height: var(--menu-width);
     overflow: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;

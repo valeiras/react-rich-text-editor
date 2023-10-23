@@ -100,6 +100,7 @@ const ToolbarPlugin = (): JSX.Element => {
         setIsLink(false);
       }
 
+      console.log(node);
       // Update text align
       setElementFormat(
         ($isElementNode(node)
