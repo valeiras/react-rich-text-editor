@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useDropzone } from 'react-dropzone';
 import { useCallback } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useImageMenuContext } from './InsertImageButton';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {
@@ -78,7 +78,7 @@ const ImageList = ({ data }: { data: dataType }): JSX.Element => {
       {data.result !== 'ok' ? (
         <p>Todavía no hay ninguna imagen en el servidor</p>
       ) : (
-        <div className="image-list">
+        <div className="image-list" id="image-list">
           {pictures.map(({ thumbnail, name, id, image }) => {
             return (
               <button key={id} className="invisible-btn image-btn">
@@ -98,18 +98,34 @@ const ImageList = ({ data }: { data: dataType }): JSX.Element => {
 };
 
 const ImageInput = (): JSX.Element => {
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    acceptedFiles.forEach(async (file) => {
-      try {
-        const form = new FormData();
-        form.append('file', file, 'inputFile');
-        const response = await axios.post(url, form);
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
-    });
-  }, []);
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (form: FormData) => {
+      return axios.post(url, form);
+    },
+    onSuccess: async () => {
+      const imageList = document.getElementById('image-list');
+      imageList?.scroll({ top: 0, behavior: 'smooth' });
+      console.log(imageList);
+
+      return await queryClient.invalidateQueries({ queryKey: ['serverImgs'] });
+    },
+  });
+
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      acceptedFiles.forEach(async (file) => {
+        try {
+          const form = new FormData();
+          form.append('file', file, file.name);
+          await mutation.mutateAsync(form);
+        } catch (error) {
+          console.log(error);
+        }
+      });
+    },
+    [mutation]
+  );
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
