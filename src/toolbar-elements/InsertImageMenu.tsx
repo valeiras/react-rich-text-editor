@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useDropzone } from 'react-dropzone';
+import { useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useImageMenuContext } from './InsertImageButton';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
@@ -7,6 +8,10 @@ import {
   INSERT_IMAGE_COMMAND,
   InsertImagePayload,
 } from '../plugins/ImagesPlugin';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+
+const url = 'https://www.comparalux.es/app/webExterna/fotoBlog.php';
 
 const InsertImageMenu = () => {
   return (
@@ -21,10 +26,7 @@ export default InsertImageMenu;
 const ImageSelector = (): JSX.Element => {
   const { isPending, error, data } = useQuery({
     queryKey: ['serverImgs'],
-    queryFn: () =>
-      fetch('https://www.comparalux.es/app/webExterna/fotoBlog.php').then(
-        (res) => res.json()
-      ),
+    queryFn: () => fetch(url).then((res) => res.json()),
   });
 
   if (error) {
@@ -64,7 +66,6 @@ const ImageList = ({ data }: { data: dataType }): JSX.Element => {
   const [editor] = useLexicalComposerContext();
 
   const insertImage = (image: string) => {
-    console.log(image);
     const imagePayload: InsertImagePayload = { src: image, altText: '' };
     editor.dispatchCommand(INSERT_IMAGE_COMMAND, imagePayload);
     if (setShowImageMenu) {
@@ -74,7 +75,7 @@ const ImageList = ({ data }: { data: dataType }): JSX.Element => {
 
   return (
     <div className="image-list-container">
-      {data.pictures.length === 0 ? (
+      {data.result !== 'ok' ? (
         <p>Todavía no hay ninguna imagen en el servidor</p>
       ) : (
         <div className="image-list">
@@ -97,11 +98,30 @@ const ImageList = ({ data }: { data: dataType }): JSX.Element => {
 };
 
 const ImageInput = (): JSX.Element => {
-  const { getRootProps, getInputProps } = useDropzone();
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    acceptedFiles.forEach(async (file) => {
+      try {
+        const response = await axios.post(url, {
+          file: file,
+        });
+        console.log(response);
+      } catch (error) {
+        toast.error(error?.message);
+        console.log(error);
+      }
+    });
+  }, []);
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: {
+      'image/*': [],
+    },
+  });
   return (
     <div className="image-input">
       <div {...getRootProps()}>
-        <input {...getInputProps({ accept: 'images/*' })} />
+        <input {...getInputProps()} />
         <div className="fake-img-input">
           <p>
             Arrastra una imagen o haz
@@ -114,7 +134,7 @@ const ImageInput = (): JSX.Element => {
 };
 
 const Wrapper = styled.div`
-  --menu-width: 250px;
+  --menu-width: 200px;
 
   display: flex;
   justify-content: center;
