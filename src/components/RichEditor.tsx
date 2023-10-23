@@ -129,7 +129,6 @@ const RichEditor = (): JSX.Element => {
 export default RichEditor;
 
 const Wrapper = styled.div`
-  /* position: relative; */
   border-radius: var(--border-radius);
   border: var(--default-border);
   width: 800px;
@@ -223,10 +222,11 @@ const Wrapper = styled.div`
     display: inline-block;
     position: relative;
     user-select: none;
+    width: 100%;
   }
 
   .rich-editor-image img {
-    max-width: 100%;
+    width: 100%;
     cursor: default;
   }
 

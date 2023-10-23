@@ -7,10 +7,11 @@
  */
 
 import styled from 'styled-components';
-import type { LexicalEditor } from 'lexical';
+import { $getNodeByKey, type LexicalEditor } from 'lexical';
 
-import * as React from 'react';
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import { EDITOR_PADDING_NUM } from '../utils/constants';
+import { $isImageNode } from '../nodes/ImageNode';
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -24,22 +25,14 @@ const Direction = {
 };
 
 export default function ImageResizer({
-  onResizeStart,
-  onResizeEnd,
-  // buttonRef,
   imageRef,
-  maxWidth,
   editor,
-}: // showCaption,
-// setShowCaption,
-// captionsEnabled,
-{
+  nodeKey,
+}: {
   editor: LexicalEditor;
   buttonRef: { current: null | HTMLButtonElement };
   imageRef: { current: null | HTMLElement };
-  maxWidth?: number;
-  onResizeEnd: (width: 'inherit' | number, height: 'inherit' | number) => void;
-  onResizeStart: () => void;
+  nodeKey: string;
   setShowCaption: (show: boolean) => void;
   showCaption: boolean;
   captionsEnabled: boolean;
@@ -50,36 +43,35 @@ export default function ImageResizer({
     value: 'default',
   });
   const positioningRef = useRef<{
-    currentHeight: 'inherit' | number;
-    currentWidth: 'inherit' | number;
+    currentHeight: number;
+    currentWidth: number;
     direction: number;
-    isResizing: boolean;
     ratio: number;
     startHeight: number;
     startWidth: number;
     startX: number;
     startY: number;
   }>({
-    currentHeight: 0,
-    currentWidth: 0,
+    currentHeight: 100,
+    currentWidth: 100,
     direction: 0,
-    isResizing: false,
     ratio: 0,
     startHeight: 0,
     startWidth: 0,
     startX: 0,
     startY: 0,
   });
+  const [percentualWidth, setPercentualWidth] = useState(0);
   const editorRootElement = editor.getRootElement();
-  // Find max width, accounting for editor padding.
-  const maxWidthContainer = maxWidth
-    ? maxWidth
-    : editorRootElement !== null
-    ? editorRootElement.getBoundingClientRect().width - 20
-    : 100;
-  const maxHeightContainer =
+
+  // Find width of the container
+  const containerWidth =
     editorRootElement !== null
-      ? editorRootElement.getBoundingClientRect().height - 20
+      ? editorRootElement.getBoundingClientRect().width - 2 * EDITOR_PADDING_NUM
+      : 100;
+  const containerHeight =
+    editorRootElement !== null
+      ? editorRootElement.getBoundingClientRect().height
       : 100;
 
   const minWidth = 100;
@@ -143,10 +135,19 @@ export default function ImageResizer({
       return;
     }
 
-    const image = imageRef.current;
+    const image = imageRef.current?.parentElement?.parentElement;
+    const imageContainer = image?.parentElement?.parentElement;
+    console.log(imageContainer);
+
     const controlWrapper = controlWrapperRef.current;
 
-    if (image !== null && controlWrapper !== null) {
+    if (
+      image !== null &&
+      image !== undefined &&
+      controlWrapper !== null &&
+      imageContainer !== undefined &&
+      imageContainer !== null
+    ) {
       event.preventDefault();
       const { width, height } = image.getBoundingClientRect();
       const positioning = positioningRef.current;
@@ -157,22 +158,30 @@ export default function ImageResizer({
       positioning.currentHeight = height;
       positioning.startX = event.clientX;
       positioning.startY = event.clientY;
-      positioning.isResizing = true;
       positioning.direction = direction;
 
       setStartCursor(direction);
-      onResizeStart();
+      // onResizeStart();
+
+      editor.update(() => {
+        const node = $getNodeByKey(nodeKey);
+        if ($isImageNode(node)) {
+          console.log(node.__height);
+        }
+      });
 
       controlWrapper.classList.add('image-control-wrapper--resizing');
-      image.style.height = `${height}px`;
-      image.style.width = `${width}px`;
+      // image.style.height = `${height}px`;
+      imageContainer.style.width = `${(100 * width) / containerWidth}%`;
 
       document.addEventListener('pointermove', handlePointerMove);
       document.addEventListener('pointerup', handlePointerUp);
     }
   };
+
   const handlePointerMove = (event: PointerEvent) => {
     const image = imageRef.current;
+    const imageContainer = imageRef.current?.parentElement?.parentElement;
     const positioning = positioningRef.current;
 
     const isHorizontal =
@@ -180,7 +189,11 @@ export default function ImageResizer({
     const isVertical =
       positioning.direction & (Direction.south | Direction.north);
 
-    if (image !== null && positioning.isResizing) {
+    if (
+      image !== null &&
+      imageContainer !== undefined &&
+      imageContainer !== null
+    ) {
       // Corner cursor
       if (isHorizontal && isVertical) {
         let diff = Math.floor(positioning.startX - event.clientX);
@@ -189,12 +202,12 @@ export default function ImageResizer({
         const width = clamp(
           positioning.startWidth + diff,
           minWidth,
-          maxWidthContainer
+          containerWidth
         );
 
         const height = width / positioning.ratio;
-        image.style.width = `${width}px`;
-        image.style.height = `${height}px`;
+        imageContainer.style.width = `${(100 * width) / containerWidth}%`;
+        setPercentualWidth((100.0 * width) / containerWidth);
         positioning.currentHeight = height;
         positioning.currentWidth = width;
       } else if (isVertical) {
@@ -204,10 +217,9 @@ export default function ImageResizer({
         const height = clamp(
           positioning.startHeight + diff,
           minHeight,
-          maxHeightContainer
+          containerHeight
         );
 
-        image.style.height = `${height}px`;
         positioning.currentHeight = height;
       } else {
         let diff = Math.floor(positioning.startX - event.clientX);
@@ -216,21 +228,20 @@ export default function ImageResizer({
         const width = clamp(
           positioning.startWidth + diff,
           minWidth,
-          maxWidthContainer
+          containerWidth
         );
 
-        image.style.width = `${width}px`;
+        image.style.width = `${(100 * width) / containerWidth}%`;
         positioning.currentWidth = width;
       }
     }
   };
+
   const handlePointerUp = () => {
-    const image = imageRef.current;
+    const image = imageRef.current?.parentElement?.parentElement;
     const positioning = positioningRef.current;
     const controlWrapper = controlWrapperRef.current;
-    if (image !== null && controlWrapper !== null && positioning.isResizing) {
-      const width = positioning.currentWidth;
-      const height = positioning.currentHeight;
+    if (image !== null && controlWrapper !== null) {
       positioning.startWidth = 0;
       positioning.startHeight = 0;
       positioning.ratio = 0;
@@ -238,19 +249,34 @@ export default function ImageResizer({
       positioning.startY = 0;
       positioning.currentWidth = 0;
       positioning.currentHeight = 0;
-      positioning.isResizing = false;
 
       controlWrapper.classList.remove('image-control-wrapper--resizing');
 
       setEndCursor();
-      onResizeEnd(width, height);
 
       document.removeEventListener('pointermove', handlePointerMove);
       document.removeEventListener('pointerup', handlePointerUp);
     }
   };
+
+  useEffect(() => {
+    const positioning = positioningRef.current;
+    const image = imageRef.current;
+    if (image != null) {
+      const { width } = image.getBoundingClientRect();
+      positioning.currentWidth = width;
+      setPercentualWidth((100.0 * width) / containerWidth);
+    }
+  }, [containerWidth, imageRef]);
+
   return (
-    <Wrapper ref={controlWrapperRef}>
+    <Wrapper
+      ref={controlWrapperRef}
+      className="ImageResizer"
+      style={{
+        width: `${percentualWidth}%`,
+      }}
+    >
       {/* {!showCaption && captionsEnabled && (
         <button
           className="image-caption-button"

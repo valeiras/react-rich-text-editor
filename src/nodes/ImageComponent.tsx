@@ -43,13 +43,6 @@ import {
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
-
-// import {createWebsocketProvider} from '../collaboration';
-// import EmojisPlugin from '../plugins/EmojisPlugin';
-// import KeywordsPlugin from '../plugins/KeywordsPlugin';
-// import LinkPlugin from '../plugins/LinkPlugin';
-// import MentionsPlugin from '../plugins/MentionsPlugin';
-// import TreeViewPlugin from '../plugins/TreeViewPlugin';
 import ContentEditable from '../ui/ContentEditable';
 import ImageResizer from '../ui/ImageResizer';
 import Placeholder from '../ui/Placeholder';
@@ -78,15 +71,10 @@ function LazyImage({
   className,
   imageRef,
   src,
-  width,
-  height,
-  maxWidth,
 }: {
   altText: string;
   className: string | null;
-  height: 'inherit' | number;
   imageRef: { current: null | HTMLImageElement };
-  maxWidth: number;
   src: string;
   width: 'inherit' | number;
 }): JSX.Element {
@@ -97,11 +85,6 @@ function LazyImage({
       src={src}
       alt={altText}
       ref={imageRef}
-      style={{
-        height,
-        maxWidth,
-        width,
-      }}
       draggable="false"
     />
   );
@@ -112,8 +95,6 @@ export default function ImageComponent({
   altText,
   nodeKey,
   width,
-  height,
-  maxWidth,
   resizable,
   showCaption,
   caption,
@@ -134,7 +115,6 @@ export default function ImageComponent({
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [isSelected, setSelected, clearSelection] =
     useLexicalNodeSelection(nodeKey);
-  const [isResizing, setIsResizing] = useState<boolean>(false);
   const [editor] = useLexicalComposerContext();
   const [selection, setSelection] = useState<
     RangeSelection | NodeSelection | GridSelection | null
@@ -210,9 +190,6 @@ export default function ImageComponent({
     (payload: MouseEvent) => {
       const event = payload;
 
-      if (isResizing) {
-        return true;
-      }
       if (event.target === imageRef.current) {
         if (event.shiftKey) {
           setSelected(!isSelected);
@@ -225,7 +202,7 @@ export default function ImageComponent({
 
       return false;
     },
-    [isResizing, isSelected, setSelected, clearSelection]
+    [isSelected, setSelected, clearSelection]
   );
 
   const onRightClick = useCallback(
@@ -312,7 +289,6 @@ export default function ImageComponent({
   }, [
     clearSelection,
     editor,
-    isResizing,
     isSelected,
     nodeKey,
     onDelete,
@@ -332,29 +308,8 @@ export default function ImageComponent({
     });
   };
 
-  const onResizeEnd = (
-    nextWidth: 'inherit' | number,
-    nextHeight: 'inherit' | number
-  ) => {
-    // Delay hiding the resize bars for click case
-    setTimeout(() => {
-      setIsResizing(false);
-    }, 200);
-
-    editor.update(() => {
-      const node = $getNodeByKey(nodeKey);
-      if ($isImageNode(node)) {
-        node.setWidthAndHeight(nextWidth, nextHeight);
-      }
-    });
-  };
-
-  const onResizeStart = () => {
-    setIsResizing(true);
-  };
-
-  const draggable = isSelected && $isNodeSelection(selection) && !isResizing;
-  const isFocused = isSelected || isResizing;
+  const draggable = isSelected && $isNodeSelection(selection);
+  const isFocused = isSelected;
   return (
     <Suspense fallback={null}>
       <>
@@ -369,8 +324,6 @@ export default function ImageComponent({
             altText={altText}
             imageRef={imageRef}
             width={width}
-            height={height}
-            maxWidth={maxWidth}
           />
         </div>
         {showCaption && (
@@ -399,9 +352,7 @@ export default function ImageComponent({
             editor={editor}
             buttonRef={buttonRef}
             imageRef={imageRef}
-            maxWidth={maxWidth}
-            onResizeStart={onResizeStart}
-            onResizeEnd={onResizeEnd}
+            nodeKey={nodeKey}
             captionsEnabled={captionsEnabled}
           />
         )}

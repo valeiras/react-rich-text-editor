@@ -12,10 +12,6 @@
   --light-grey: #f7f7f7;
   --dark-grey: #eee;
   --border-radius: 0.5em;
-  --default-padding: 0.3rem;
-  --editor-padding: 1.1rem;
-  --transition: 0.2s ease-in-out all;
-  --loading-size: 1rem;
 
   /* box shadow*/
   --shadow-ennubo: 0.15em 0.15em 0.15em rgba(130, 130, 130, 0.6);
@@ -51,16 +47,6 @@
 .toolbar-btn:hover {
   background-color: var(--dark-grey);
   transition: var(--transition);
-}
-
-.content-editable {
-  height: 100%;
-  width: 100%;
-  outline: none;
-  border-radius: var(--border-radius);
-  padding: var(--default-padding) var(--editor-padding);
-  background-color: white;
-  font-family: Arial;
 }
 
 .rich-editor-select {
