@@ -24,69 +24,9 @@
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-.toolbar-btn-strip {
-  display: flex;
-  flex-direction: row;
-  gap: 0.1rem;
-}
-
-.toolbar-btn {
+.editor-container {
+  padding: 2rem;
   border-radius: var(--border-radius);
-  cursor: pointer;
-  background-color: transparent;
-  font-weight: 400;
-  font-size: 1.2rem;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.2rem;
-}
-
-.active-btn,
-.toolbar-btn:hover {
-  background-color: var(--dark-grey);
-  transition: var(--transition);
-}
-
-.rich-editor-select {
-  border-radius: var(--border-radius);
-  border: none;
-  font-family: Helvetica, sans-serif;
-  font-size: 1rem;
-  outline: none;
-  background-color: transparent;
-  text-overflow: ellipsis;
-  cursor: pointer;
-}
-
-.rich-editor-select.narrow-select {
-  max-width: 5rem;
-}
-
-.rich-editor-banner {
-  background-color: red;
-  color: blue;
-  margin: 0.5rem;
-  display: flex;
-  width: fit-content;
-  padding: 1rem;
-  border-radius: var(--border-radius);
-}
-
-@keyframes spinner {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.loading-indicator {
-  width: var(--loading-size);
-  height: var(--loading-size);
-  transition: var(--transition);
-
-  border-radius: 50%;
-  border: 2px solid var(--border-color);
-  border-top-color: var(--disabled-color);
-  animation: spinner 0.6s linear infinite, delayedfadein 1.5s ease-in-out;
+  border: var(--default-border);
+  background-color: #eee;
 }

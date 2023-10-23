@@ -170,6 +170,7 @@ const Wrapper = styled.div`
   align-items: stretch;
   border-bottom: 1px solid #bbb;
   padding: var(--default-padding);
+  /* position: relative; */
 `;
 
 const Divider = styled.div`

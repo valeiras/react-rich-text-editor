@@ -137,7 +137,6 @@ export default function ImageResizer({
 
     const image = imageRef.current?.parentElement?.parentElement;
     const imageContainer = image?.parentElement?.parentElement;
-    console.log(imageContainer);
 
     const controlWrapper = controlWrapperRef.current;
 

@@ -73,8 +73,6 @@ const ImageList = ({ data }: { data: dataType }): JSX.Element => {
     }
   };
 
-  console.log(pictures);
-
   return (
     <div className="image-list-container">
       {data.result !== 'ok' ? (
@@ -114,7 +112,6 @@ const ImageInput = (): JSX.Element => {
     onSuccess: async () => {
       const imageList = document.getElementById('image-list');
       imageList?.scroll({ top: 0, behavior: 'smooth' });
-      console.log(imageList);
 
       return await queryClient.invalidateQueries({ queryKey: ['serverImgs'] });
     },
@@ -174,7 +171,7 @@ const Wrapper = styled.div`
   padding: 0.5rem 1rem;
   margin-top: var(--default-padding);
   box-shadow: var(--shadow-1);
-  transform: translateX(-50%);
+  transform: translate(-50%, 5px);
 
   button {
     padding: 0;

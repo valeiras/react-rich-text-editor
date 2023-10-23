@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import styled from 'styled-components';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HeadingNode } from '@lexical/rich-text';
 import { ListItemNode, ListNode } from '@lexical/list';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
@@ -77,6 +77,17 @@ const RichEditor = (): JSX.Element => {
     ],
   };
 
+  const saveEditorState = () => {
+    console.log('Save!!');
+  };
+
+  useEffect(() => {
+    window.addEventListener('save-editor-state', saveEditorState);
+    return () => {
+      window.removeEventListener('save-editor-state', saveEditorState);
+    };
+  }, []);
+
   const [floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null);
 
@@ -134,6 +145,7 @@ const Wrapper = styled.div`
   width: 800px;
   overflow: hidden;
   resize: both;
+  position: static;
 
   .editor-scroller {
     min-height: 20rem;

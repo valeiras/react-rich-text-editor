@@ -14,10 +14,16 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-direction: column;
+        gap: 2rem;
       "
     >
-      <rich-text-editor />
+      <div class="editor-container">
+        <rich-text-editor />
+      </div>
+      <button onclick="generateSaveEvent()">Click</button>
     </div>
     <script type="module" src="/src/main.tsx"></script>
+    <script src="index.js"></script>
   </body>
 </html>
