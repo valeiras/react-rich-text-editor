@@ -73,22 +73,30 @@ const ImageList = ({ data }: { data: dataType }): JSX.Element => {
     }
   };
 
+  console.log(pictures);
+
   return (
     <div className="image-list-container">
       {data.result !== 'ok' ? (
         <p>Todavía no hay ninguna imagen en el servidor</p>
       ) : (
         <div className="image-list" id="image-list">
-          {pictures.map(({ thumbnail, name, id, image }) => {
+          {pictures.map(({ thumbnail, name, id, image, height, width }) => {
             return (
-              <button key={id} className="invisible-btn image-btn">
-                <img
-                  src={thumbnail}
-                  alt={name}
-                  className="image-item"
-                  onClick={() => insertImage(image)}
-                />
-              </button>
+              <div key={id} className="image-container">
+                <button className="invisible-btn image-btn">
+                  <img
+                    src={thumbnail}
+                    alt={name}
+                    className="image-item"
+                    onClick={() => insertImage(image)}
+                  />
+                </button>
+                <div className="image-info">
+                  <p>{name}</p>
+                  <p>{`${height}x${width}px`}</p>
+                </div>
+              </div>
             );
           })}
         </div>
@@ -150,7 +158,7 @@ const ImageInput = (): JSX.Element => {
 };
 
 const Wrapper = styled.div`
-  --menu-width: 400px;
+  --menu-width: 500px;
 
   display: flex;
   justify-content: center;
@@ -166,7 +174,11 @@ const Wrapper = styled.div`
   padding: 0.5rem 1rem;
   margin-top: var(--default-padding);
   box-shadow: var(--shadow-1);
+  transform: translateX(-50%);
 
+  button {
+    padding: 0;
+  }
   p {
     font-size: 0.9rem;
   }
@@ -216,13 +228,24 @@ const Wrapper = styled.div`
 
   .image-list {
     display: grid;
-    grid-template-columns: repeat(3, auto);
+    grid-template-columns: repeat(3, 1fr);
     width: 100%;
     height: calc(0.5 * var(--menu-width));
     overflow: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    gap: 2px;
+    gap: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .image-container {
+    width: 100%;
+    padding: 0.3rem;
+    border: var(--default-border);
+    border-radius: var(--border-radius);
+    display: grid;
+    grid-template-rows: 1fr auto;
+    box-shadow: var(--shadow-1);
   }
 
   .image-list::-webkit-scrollbar {
@@ -239,6 +262,17 @@ const Wrapper = styled.div`
 
   .image-list::-webkit-scrollbar-thumb:hover {
     background: #555;
+  }
+
+  .image-info {
+    overflow: hidden;
+  }
+
+  .image-info p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 0.8rem;
   }
 
   .image-item {
