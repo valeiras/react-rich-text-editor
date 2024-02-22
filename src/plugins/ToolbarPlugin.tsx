@@ -26,7 +26,6 @@ import {
   TextColorPicker,
   InsertLinkButton,
   InsertImageButton,
-  InsertTableButton,
 } from '../toolbar-elements';
 
 import getSelectedNode from '../utils/getSelectedNode';
@@ -153,8 +152,6 @@ const ToolbarPlugin = (): JSX.Element => {
       <InsertLinkButton isLink={isLink} />
       <EmbedButtons />
       <InsertImageButton />
-      <Divider />
-      <InsertTableButton />
       <Divider />
       <InsertListButtons />
     </Wrapper>

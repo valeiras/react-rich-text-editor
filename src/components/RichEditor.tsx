@@ -15,7 +15,6 @@ import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
 import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
 import LexicalClickableLinkPlugin from '@lexical/react/LexicalClickableLinkPlugin';
-import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
 
 import {
   ToolbarPlugin,
@@ -30,7 +29,6 @@ import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ImagesPlugin from '../plugins/ImagesPlugin';
 import { ImageNode } from '../nodes/ImageNode';
-import { TableCellNode, TableNode, TableRowNode } from '@lexical/table';
 
 const theme = {
   heading: {
@@ -79,9 +77,6 @@ const RichEditor = (): JSX.Element => {
       AutoLinkNode,
       YouTubeNode,
       ImageNode,
-      TableNode,
-      TableCellNode,
-      TableRowNode,
     ],
   };
 
@@ -117,7 +112,6 @@ const RichEditor = (): JSX.Element => {
       <ToastContainer position="top-center" transition={Slide} />
       <Wrapper className="RichEditor">
         <LexicalComposer initialConfig={initialConfig}>
-          <TablePlugin />
           <ToolbarPlugin />
           <ListPlugin />
           <LinkPlugin />
