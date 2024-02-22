@@ -81,6 +81,7 @@ const Wrapper = styled.div<{ $editorPadding: string }>`
     font-size: 1rem;
     transition: var(--transition);
   }
+  
   .btn:hover {
     background-color: #ddd;
   }
