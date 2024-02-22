@@ -17,4 +17,4 @@ const App = () => {
 
 export const WebRichEditor = r2wc(App);
 
-customElements.define('rich-text-editor', WebRichEditor);
+window.customElements.define('rich-text-editor', WebRichEditor);
