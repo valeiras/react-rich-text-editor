@@ -4,3 +4,4 @@ export { default as AutoEmbedPlugin } from './AutoEmbedPlugin';
 export { default as YouTubePlugin } from './YouTubePlugin';
 export { default as TwitterPlugin } from './TwitterPlugin';
 export { default as DraggableBlockPlugin } from './DraggableBlockPlugin';
+export { default as ContentSaverPlugin } from './ContentSaverPlugin';

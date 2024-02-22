@@ -1,20 +1,20 @@
 /* eslint-disable react-refresh/only-export-components */
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { useEffect, useState } from 'react';
-import { HeadingNode } from '@lexical/rich-text';
-import { ListItemNode, ListNode } from '@lexical/list';
-import { LexicalComposer } from '@lexical/react/LexicalComposer';
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { ContentEditable } from '@lexical/react/LexicalContentEditable';
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { ListPlugin } from '@lexical/react/LexicalListPlugin';
-import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
-import { AutoLinkNode, LinkNode } from '@lexical/link';
-import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
-import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
-import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
-import LexicalClickableLinkPlugin from '@lexical/react/LexicalClickableLinkPlugin';
+import { useState } from "react";
+import { HeadingNode } from "@lexical/rich-text";
+import { ListItemNode, ListNode } from "@lexical/list";
+import { LexicalComposer } from "@lexical/react/LexicalComposer";
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { ContentEditable } from "@lexical/react/LexicalContentEditable";
+import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+import { AutoLinkNode, LinkNode } from "@lexical/link";
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
+import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
+import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
+import LexicalClickableLinkPlugin from "@lexical/react/LexicalClickableLinkPlugin";
 
 import {
   ToolbarPlugin,
@@ -22,77 +22,58 @@ import {
   YouTubePlugin,
   AutoEmbedPlugin,
   DraggableBlockPlugin,
-} from '../plugins';
-import GlobalStyles from './GlobalStyles';
-import { YouTubeNode } from '../nodes/YouTubeNode';
-import { ToastContainer, Slide } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import ImagesPlugin from '../plugins/ImagesPlugin';
-import { ImageNode } from '../nodes/ImageNode';
+  ContentSaverPlugin,
+} from "../plugins";
+import GlobalStyles from "./GlobalStyles";
+import { YouTubeNode } from "../nodes/YouTubeNode";
+import { ToastContainer, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ImagesPlugin from "../plugins/ImagesPlugin";
+import { ImageNode } from "../nodes/ImageNode";
 
 const theme = {
   heading: {
-    h1: 'rich-editor-h1',
-    h2: 'rich-editor-h2',
-    h3: 'rich-editor-h3',
-    h4: 'rich-editor-h4',
-    h5: 'rich-editor-h5',
-    h6: 'rich-editor-h6',
+    h1: "rich-editor-h1",
+    h2: "rich-editor-h2",
+    h3: "rich-editor-h3",
+    h4: "rich-editor-h4",
+    h5: "rich-editor-h5",
+    h6: "rich-editor-h6",
   },
   text: {
-    bold: 'rich-editor-bold',
-    italic: 'rich-editor-italic',
-    underline: 'rich-editor-underline',
-    strikethrough: 'rich-editor-strikethrough',
+    bold: "rich-editor-bold",
+    italic: "rich-editor-italic",
+    underline: "rich-editor-underline",
+    strikethrough: "rich-editor-strikethrough",
   },
-  link: 'rich-editor-link',
+  link: "rich-editor-link",
   list: {
-    ul: 'rich-editor-ul',
-    ol: 'rich-editor-ol',
+    ul: "rich-editor-ul",
+    ol: "rich-editor-ol",
   },
   embedBlock: {
-    base: 'rich-editor-embed-block',
-    focus: 'rich-editor-embed-block-focus',
+    base: "rich-editor-embed-block",
+    focus: "rich-editor-embed-block-focus",
   },
-  image: 'rich-editor-image',
-  table: 'rich-editor-table',
-  tableCell: 'rich-editor-table-cell',
-  tableCellHeader: 'rich-editor-table-cell-header',
+  image: "rich-editor-image",
+  table: "rich-editor-table",
+  tableCell: "rich-editor-table-cell",
+  tableCellHeader: "rich-editor-table-cell-header",
 };
 
 const onError = (error: Error): void => {
   console.error(error);
 };
 
-const RichEditor = (): JSX.Element => {
+const RichEditor = ({ height, width }: { height: string; width: string }): JSX.Element => {
   const initialConfig = {
-    namespace: 'MyEditor',
+    namespace: "MyEditor",
     theme,
     onError,
-    nodes: [
-      HeadingNode,
-      ListNode,
-      ListItemNode,
-      LinkNode,
-      AutoLinkNode,
-      YouTubeNode,
-      ImageNode,
-    ],
+    nodes: [HeadingNode, ListNode, ListItemNode, LinkNode, AutoLinkNode, YouTubeNode, ImageNode],
   };
 
-  const saveEditorState = () => {
-    console.log('¡Evento "save-editor-state" recibido!');
-  };
-
-  useEffect(() => {
-    window.addEventListener('save-editor-state', saveEditorState);
-    return () => {
-      window.removeEventListener('save-editor-state', saveEditorState);
-    };
-  }, []);
-
-  const [floatingAnchorElem, setFloatingAnchorElem] =
-    useState<HTMLDivElement | null>(null);
+  const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null);
 
   const onRef = (_floatingAnchorElem: HTMLDivElement) => {
     if (_floatingAnchorElem !== null) {
@@ -110,8 +91,9 @@ const RichEditor = (): JSX.Element => {
   return (
     <GlobalStyles>
       <ToastContainer position="top-center" transition={Slide} />
-      <Wrapper className="RichEditor">
+      <Wrapper className="RichEditor" $width={width}>
         <LexicalComposer initialConfig={initialConfig}>
+          <ContentSaverPlugin />
           <ToolbarPlugin />
           <ListPlugin />
           <LinkPlugin />
@@ -121,7 +103,7 @@ const RichEditor = (): JSX.Element => {
           <SafeDraggablePlugin />
           <RichTextPlugin
             contentEditable={
-              <div className="editor-scroller">
+              <div className="editor-scroller" style={{ height }}>
                 <div className="editor" ref={onRef}>
                   <ContentEditable className="content-editable" />
                 </div>
@@ -142,10 +124,10 @@ const RichEditor = (): JSX.Element => {
 };
 export default RichEditor;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ $width: string }>`
   border-radius: var(--border-radius);
   border: var(--default-border);
-  width: 800px;
+  width: ${(props) => props.$width};
   overflow: hidden;
   resize: both;
   position: static;

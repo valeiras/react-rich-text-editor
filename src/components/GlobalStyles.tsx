@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
-import styled from 'styled-components';
-import { EDITOR_PADDING_STR } from '../utils/constants';
+import { ReactNode } from "react";
+import styled from "styled-components";
+import { EDITOR_PADDING_STR } from "../utils/constants";
 
 const GlobalStyles = ({ children }: { children: ReactNode }) => {
   return (
@@ -81,7 +81,7 @@ const Wrapper = styled.div<{ $editorPadding: string }>`
     font-size: 1rem;
     transition: var(--transition);
   }
-  
+
   .btn:hover {
     background-color: #ddd;
   }

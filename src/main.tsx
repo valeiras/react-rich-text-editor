@@ -1,20 +1,20 @@
-import r2wc from '@r2wc/react-to-web-component';
+import r2wc from "@r2wc/react-to-web-component";
 
-import './styles.css';
+import "./styles.css";
 
-import RichEditor from './components/RichEditor';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import RichEditor from "./components/RichEditor";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 
-const App = () => {
+const App = ({ height, width }: { height: string; width: string }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <RichEditor />
+      <RichEditor height={height} width={width} />
     </QueryClientProvider>
   );
 };
 
-export const WebRichEditor = r2wc(App);
+export const WebRichEditor = r2wc(App, { props: { height: "string", width: "string" } });
 
-window.customElements.define('rich-text-editor', WebRichEditor);
+window.customElements.define("rich-text-editor", WebRichEditor);
