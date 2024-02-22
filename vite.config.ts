@@ -7,7 +7,6 @@ export default defineConfig({
   plugins: [react()],
   build: {
     emptyOutDir: true,
-    cssCodeSplit: false,
     rollupOptions: {
       output: {
         dir: 'dist',
