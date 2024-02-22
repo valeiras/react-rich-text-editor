@@ -6,13 +6,15 @@ export default defineConfig({
   base: "./",
   plugins: [react()],
   build: {
+    emptyOutDir: true,
+    cssCodeSplit: false,
     rollupOptions: {
       output: {
         dir: 'dist',
         entryFileNames: 'rich-editor-wc.js',
         assetFileNames: 'rich-editor-wc.css',
         chunkFileNames: 'chunk.js',
-        manualChunks: undefined,
+        manualChunks: {},
       },
     },
   },
