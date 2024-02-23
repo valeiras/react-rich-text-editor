@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { HeadingNode } from "@lexical/rich-text";
 import { ListItemNode, ListNode } from "@lexical/list";
-import { LexicalComposer } from "@lexical/react/LexicalComposer";
+import { InitialConfigType, LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
@@ -74,13 +74,16 @@ const RichEditor = ({
   width: string;
   initialContent: string;
 }): JSX.Element => {
-  const initialConfig = {
+  let initialConfig: InitialConfigType = {
     namespace: "MyEditor",
     theme,
     onError,
     nodes: [HeadingNode, ListNode, ListItemNode, LinkNode, AutoLinkNode, YouTubeNode, ImageNode],
-    editorState: initialContent,
   };
+
+  if (initialContent) {
+    initialConfig = { ...initialConfig, editorState: initialContent };
+  }
 
   const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null);
 
@@ -100,7 +103,7 @@ const RichEditor = ({
   return (
     <GlobalStyles>
       <ToastContainer position="top-center" transition={Slide} />
-      <Wrapper className="RichEditor" $width={width}>
+      <Wrapper className="RichEditor" $width={width} $height={height}>
         <LexicalComposer initialConfig={initialConfig}>
           <ContentSaverPlugin />
           <ToolbarPlugin />
@@ -112,7 +115,7 @@ const RichEditor = ({
           <SafeDraggablePlugin />
           <RichTextPlugin
             contentEditable={
-              <div className="editor-scroller" style={{ height }}>
+              <div className="editor-scroller">
                 <div className="editor" ref={onRef}>
                   <ContentEditable className="content-editable" />
                 </div>
@@ -133,16 +136,18 @@ const RichEditor = ({
 };
 export default RichEditor;
 
-const Wrapper = styled.div<{ $width: string }>`
+const Wrapper = styled.div<{ $width: string; $height: string }>`
   border-radius: var(--border-radius);
   border: var(--default-border);
   width: ${(props) => props.$width};
+  height: ${(props) => props.$height};
   overflow: hidden;
   resize: both;
   position: static;
+  display: flex;
+  flex-direction: column;
 
   .editor-scroller {
-    min-height: 20rem;
     border: 0;
     display: flex;
     position: relative;
@@ -150,7 +155,7 @@ const Wrapper = styled.div<{ $width: string }>`
     z-index: 0;
     overflow-y: scroll;
     width: 100%;
-    height: 100%;
+    flex: 1;
   }
 
   .editor {

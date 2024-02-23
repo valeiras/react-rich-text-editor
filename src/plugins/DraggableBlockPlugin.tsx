@@ -411,7 +411,7 @@ const Wrapper = styled.div`
     width: 1rem;
     height: 1rem;
     opacity: 0.3;
-    background-image: url(https://util.ennubo.es/editor/draggable-block-menu.svg);
+    background-image: url(https://utils.ennubo.es/editor/draggable-block-menu.svg);
   }
 
   .draggable-block-menu:active {
