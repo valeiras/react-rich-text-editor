@@ -1,17 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { $generateHtmlFromNodes } from "@lexical/html";
-import DOMPurify from "dompurify";
 
 const ContentSaverPlugin = (): JSX.Element => {
   const [editor] = useLexicalComposerContext();
 
   const saveEditorState = () => {
-    editor.update(() => {
-      const htmlString = DOMPurify.sanitize($generateHtmlFromNodes(editor, null));
-      console.log(htmlString);
-    });
+    const editorState = JSON.stringify(editor.getEditorState());
+    const internalEditorState = new CustomEvent("internal-editor-state", { detail: { editorState } });
+    window.dispatchEvent(internalEditorState);
   };
 
   useEffect(() => {

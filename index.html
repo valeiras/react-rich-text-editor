@@ -19,7 +19,7 @@
       "
     >
       <div class="editor-container">
-        <rich-text-editor height="300px" width="800px"/>
+        <rich-text-editor height="300px" width="800px" initial-content='{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"asdfasdfasdf","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'>
       </div>
 
       <button onclick="generateSaveEvent()">Click</button>
@@ -30,6 +30,9 @@
         const event = new Event('save-editor-state');
         dispatchEvent(event);
       };
+      addEventListener("internal-editor-state", (e)=>{
+        console.log(e.detail.editorState)
+      })
     </script>
   </body>
 </html>

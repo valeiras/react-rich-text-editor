@@ -7,14 +7,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 
-const App = ({ height, width }: { height: string; width: string }) => {
+const App = ({ height, width, initialContent }: { height: string; width: string; initialContent: string }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <RichEditor height={height} width={width} />
+      <RichEditor height={height} width={width} initialContent={initialContent} />
     </QueryClientProvider>
   );
 };
 
-export const WebRichEditor = r2wc(App, { props: { height: "string", width: "string" } });
+export const WebRichEditor = r2wc(App, { props: { height: "string", width: "string", initialContent: "string" } });
 
 window.customElements.define("rich-text-editor", WebRichEditor);

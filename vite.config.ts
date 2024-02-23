@@ -13,7 +13,6 @@ export default defineConfig({
         dir: 'dist',
         entryFileNames: 'rich-editor-wc.js',
         assetFileNames: 'rich-editor-wc.css',
-        // chunkFileNames: 'chunk.js',
         manualChunks: {},
       },
     },

@@ -65,12 +65,21 @@ const onError = (error: Error): void => {
   console.error(error);
 };
 
-const RichEditor = ({ height, width }: { height: string; width: string }): JSX.Element => {
+const RichEditor = ({
+  height,
+  width,
+  initialContent,
+}: {
+  height: string;
+  width: string;
+  initialContent: string;
+}): JSX.Element => {
   const initialConfig = {
     namespace: "MyEditor",
     theme,
     onError,
     nodes: [HeadingNode, ListNode, ListItemNode, LinkNode, AutoLinkNode, YouTubeNode, ImageNode],
+    editorState: initialContent,
   };
 
   const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null);
