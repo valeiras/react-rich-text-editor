@@ -27,7 +27,7 @@
     <script type="module" src="/src/main.tsx"></script>
     <script>
       const generateSaveEvent = () => {
-        const event = new Event('save-editor-state');
+        const event = new Event('get-editor-state');
         dispatchEvent(event);
       };
       addEventListener("internal-editor-state", (e)=>{

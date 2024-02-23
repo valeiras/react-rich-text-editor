@@ -12,9 +12,9 @@ const ContentSaverPlugin = (): JSX.Element => {
   };
 
   useEffect(() => {
-    window.addEventListener("save-editor-state", saveEditorState);
+    window.addEventListener("get-editor-state", saveEditorState);
     return () => {
-      window.removeEventListener("save-editor-state", saveEditorState);
+      window.removeEventListener("get-editor-state", saveEditorState);
     };
   }, []);
 
