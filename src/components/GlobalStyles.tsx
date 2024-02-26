@@ -34,6 +34,18 @@ const Wrapper = styled.div<{ $editorPadding: string }>`
   border-radius: var(--border-radius);
   width: fit-content;
 
+  iframe {
+    width: 360px;
+    height: 202px;
+  }
+
+  @media screen and (min-width: 992px) {
+    iframe {
+      width: 560px;
+      height: 315px;
+    }
+  }
+
   h1,
   h2,
   h3,

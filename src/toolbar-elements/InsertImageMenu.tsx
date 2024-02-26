@@ -1,17 +1,14 @@
-import styled from 'styled-components';
-import { useDropzone } from 'react-dropzone';
-import { useCallback } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useImageMenuContext } from './InsertImageButton';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import {
-  INSERT_IMAGE_COMMAND,
-  InsertImagePayload,
-} from '../plugins/ImagesPlugin';
-import axios from 'axios';
+import styled from "styled-components";
+import { useDropzone } from "react-dropzone";
+import { useCallback } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useImageMenuContext } from "./InsertImageButton";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { INSERT_IMAGE_COMMAND, InsertImagePayload } from "../plugins/ImagesPlugin";
+import axios from "axios";
 // import { toast } from 'react-toastify';
 
-const url = 'https://www.comparalux.es/app/webExterna/fotoBlog.php';
+const url = "https://www.comparalux.es/app/webExterna/fotoBlog.php";
 
 const InsertImageMenu = () => {
   return (
@@ -25,15 +22,13 @@ export default InsertImageMenu;
 
 const ImageSelector = (): JSX.Element => {
   const { isPending, error, data } = useQuery({
-    queryKey: ['serverImgs'],
+    queryKey: ["serverImgs"],
     queryFn: () => fetch(url).then((res) => res.json()),
   });
 
   if (error) {
     console.log(error);
-    return (
-      <div className="images-selector">Parece que ha habido un error...</div>
-    );
+    return <div className="images-selector">Parece que ha habido un error...</div>;
   }
 
   return (
@@ -66,7 +61,7 @@ const ImageList = ({ data }: { data: dataType }): JSX.Element => {
   const [editor] = useLexicalComposerContext();
 
   const insertImage = (image: string) => {
-    const imagePayload: InsertImagePayload = { src: image, altText: '' };
+    const imagePayload: InsertImagePayload = { src: image, altText: "" };
     editor.dispatchCommand(INSERT_IMAGE_COMMAND, imagePayload);
     if (setShowImageMenu) {
       setShowImageMenu(false);
@@ -75,7 +70,7 @@ const ImageList = ({ data }: { data: dataType }): JSX.Element => {
 
   return (
     <div className="image-list-container">
-      {data.result !== 'ok' ? (
+      {data.result !== "ok" ? (
         <p>Todavía no hay ninguna imagen en el servidor</p>
       ) : (
         <div className="image-list" id="image-list">
@@ -83,12 +78,7 @@ const ImageList = ({ data }: { data: dataType }): JSX.Element => {
             return (
               <div key={id} className="image-container">
                 <button className="invisible-btn image-btn">
-                  <img
-                    src={thumbnail}
-                    alt={name}
-                    className="image-item"
-                    onClick={() => insertImage(image)}
-                  />
+                  <img src={thumbnail} alt={name} className="image-item" onClick={() => insertImage(image)} />
                 </button>
                 <div className="image-info">
                   <p>{name}</p>
@@ -110,10 +100,10 @@ const ImageInput = (): JSX.Element => {
       return axios.post(url, form);
     },
     onSuccess: async () => {
-      const imageList = document.getElementById('image-list');
-      imageList?.scroll({ top: 0, behavior: 'smooth' });
+      const imageList = document.getElementById("image-list");
+      imageList?.scroll({ top: 0, behavior: "smooth" });
 
-      return await queryClient.invalidateQueries({ queryKey: ['serverImgs'] });
+      return await queryClient.invalidateQueries({ queryKey: ["serverImgs"] });
     },
   });
 
@@ -122,7 +112,7 @@ const ImageInput = (): JSX.Element => {
       acceptedFiles.forEach(async (file) => {
         try {
           const form = new FormData();
-          form.append('file', file, file.name);
+          form.append("file", file, file.name);
           await mutation.mutateAsync(form);
         } catch (error) {
           console.log(error);
@@ -135,7 +125,7 @@ const ImageInput = (): JSX.Element => {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: {
-      'image/*': [],
+      "image/*": [],
     },
   });
   return (
@@ -145,8 +135,7 @@ const ImageInput = (): JSX.Element => {
         <div className="fake-img-input">
           <p>
             Arrastra o haz
-            <span className="fake-btn"> click aquí</span> para subir una nueva
-            imagen
+            <span className="fake-btn"> click aquí</span> para subir una nueva imagen
           </p>
         </div>
       </div>
@@ -230,7 +219,6 @@ const Wrapper = styled.div`
     height: calc(0.5 * var(--menu-width));
     overflow: auto;
     -ms-overflow-style: none;
-    scrollbar-width: none;
     gap: 0.5em;
     padding-right: 0.5em;
   }

@@ -17,13 +17,10 @@ import type {
   LexicalNode,
   NodeKey,
   Spread,
-} from 'lexical';
+} from "lexical";
 
-import { BlockWithAlignableContents } from '@lexical/react/LexicalBlockWithAlignableContents';
-import {
-  DecoratorBlockNode,
-  SerializedDecoratorBlockNode,
-} from '@lexical/react/LexicalDecoratorBlockNode';
+import { BlockWithAlignableContents } from "@lexical/react/LexicalBlockWithAlignableContents";
+import { DecoratorBlockNode, SerializedDecoratorBlockNode } from "@lexical/react/LexicalDecoratorBlockNode";
 
 type YouTubeComponentProps = Readonly<{
   className: Readonly<{
@@ -35,21 +32,12 @@ type YouTubeComponentProps = Readonly<{
   videoID: string;
 }>;
 
-function YouTubeComponent({
-  className,
-  format,
-  nodeKey,
-  videoID,
-}: YouTubeComponentProps) {
+function YouTubeComponent({ className, format, nodeKey, videoID }: YouTubeComponentProps) {
   return (
-    <BlockWithAlignableContents
-      className={className}
-      format={format}
-      nodeKey={nodeKey}
-    >
+    <BlockWithAlignableContents className={className} format={format} nodeKey={nodeKey}>
       <iframe
-        width="560"
-        height="315"
+        // width="560"
+        // height="315"
         src={`https://www.youtube-nocookie.com/embed/${videoID}`}
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -67,10 +55,8 @@ export type SerializedYouTubeNode = Spread<
   SerializedDecoratorBlockNode
 >;
 
-function convertYoutubeElement(
-  domNode: HTMLElement
-): null | DOMConversionOutput {
-  const videoID = domNode.getAttribute('data-lexical-youtube');
+function convertYoutubeElement(domNode: HTMLElement): null | DOMConversionOutput {
+  const videoID = domNode.getAttribute("data-lexical-youtube");
   if (videoID) {
     const node = $createYouTubeNode(videoID);
     return { node };
@@ -82,7 +68,7 @@ export class YouTubeNode extends DecoratorBlockNode {
   __id: string;
 
   static getType(): string {
-    return 'youtube';
+    return "youtube";
   }
 
   static clone(node: YouTubeNode): YouTubeNode {
@@ -98,7 +84,7 @@ export class YouTubeNode extends DecoratorBlockNode {
   exportJSON(): SerializedYouTubeNode {
     return {
       ...super.exportJSON(),
-      type: 'youtube',
+      type: "youtube",
       version: 1,
       videoID: this.__id,
     };
@@ -110,28 +96,23 @@ export class YouTubeNode extends DecoratorBlockNode {
   }
 
   exportDOM(): DOMExportOutput {
-    const element = document.createElement('iframe');
-    element.setAttribute('data-lexical-youtube', this.__id);
-    element.setAttribute('width', '560');
-    element.setAttribute('height', '315');
+    const element = document.createElement("iframe");
+    element.setAttribute("data-lexical-youtube", this.__id);
+    element.setAttribute("src", `https://www.youtube-nocookie.com/embed/${this.__id}`);
+    element.setAttribute("frameborder", "0");
     element.setAttribute(
-      'src',
-      `https://www.youtube-nocookie.com/embed/${this.__id}`
+      "allow",
+      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     );
-    element.setAttribute('frameborder', '0');
-    element.setAttribute(
-      'allow',
-      'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-    );
-    element.setAttribute('allowfullscreen', 'true');
-    element.setAttribute('title', 'YouTube video');
+    element.setAttribute("allowfullscreen", "true");
+    element.setAttribute("title", "YouTube video");
     return { element };
   }
 
   static importDOM(): DOMConversionMap | null {
     return {
       iframe: (domNode: HTMLElement) => {
-        if (!domNode.hasAttribute('data-lexical-youtube')) {
+        if (!domNode.hasAttribute("data-lexical-youtube")) {
           return null;
         }
         return {
@@ -157,16 +138,11 @@ export class YouTubeNode extends DecoratorBlockNode {
   decorate(_editor: LexicalEditor, config: EditorConfig): JSX.Element {
     const embedBlockTheme = config.theme.embedBlock || {};
     const className = {
-      base: embedBlockTheme.base || '',
-      focus: embedBlockTheme.focus || '',
+      base: embedBlockTheme.base || "",
+      focus: embedBlockTheme.focus || "",
     };
     return (
-      <YouTubeComponent
-        className={className}
-        format={this.__format}
-        nodeKey={this.getKey()}
-        videoID={this.__id}
-      />
+      <YouTubeComponent className={className} format={this.__format} nodeKey={this.getKey()} videoID={this.__id} />
     );
   }
 }
@@ -175,8 +151,6 @@ export function $createYouTubeNode(videoID: string): YouTubeNode {
   return new YouTubeNode(videoID);
 }
 
-export function $isYouTubeNode(
-  node: YouTubeNode | LexicalNode | null | undefined
-): node is YouTubeNode {
+export function $isYouTubeNode(node: YouTubeNode | LexicalNode | null | undefined): node is YouTubeNode {
   return node instanceof YouTubeNode;
 }

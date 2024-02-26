@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { FaTimes } from 'react-icons/fa';
-import { ReactNode, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
+import { FaTimes } from "react-icons/fa";
+import { ReactNode, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 
 function PortalImpl({
   onClose,
@@ -39,11 +39,7 @@ function PortalImpl({
     };
     const clickOutsideHandler = (event: MouseEvent) => {
       const target = event.target;
-      if (
-        modalRef.current !== null &&
-        !modalRef.current.contains(target as Node) &&
-        closeOnClickOutside
-      ) {
+      if (modalRef.current !== null && !modalRef.current.contains(target as Node) && closeOnClickOutside) {
         onClose();
       }
     };
@@ -51,16 +47,16 @@ function PortalImpl({
     if (modelElement !== null) {
       modalOverlayElement = modelElement.parentElement;
       if (modalOverlayElement !== null) {
-        modalOverlayElement.addEventListener('click', clickOutsideHandler);
+        modalOverlayElement.addEventListener("click", clickOutsideHandler);
       }
     }
 
-    window.addEventListener('keydown', handler);
+    window.addEventListener("keydown", handler);
 
     return () => {
-      window.removeEventListener('keydown', handler);
+      window.removeEventListener("keydown", handler);
       if (modalOverlayElement !== null) {
-        modalOverlayElement?.removeEventListener('click', clickOutsideHandler);
+        modalOverlayElement?.removeEventListener("click", clickOutsideHandler);
       }
     };
   }, [closeOnClickOutside, onClose]);
@@ -69,12 +65,7 @@ function PortalImpl({
     <Wrapper className="modal-container" role="dialog">
       <div className="modal" tabIndex={-1} ref={modalRef}>
         <h2 className="modal-title">{title}</h2>
-        <button
-          className="modal-close-button"
-          aria-label="Close modal"
-          type="button"
-          onClick={onClose}
-        >
+        <button className="modal-close-button" aria-label="Close modal" type="button" onClick={onClose}>
           <FaTimes />
         </button>
         <div className="modal-content">{children}</div>
@@ -95,11 +86,7 @@ export default function Modal({
   title: string;
 }): JSX.Element {
   return createPortal(
-    <PortalImpl
-      onClose={onClose}
-      title={title}
-      closeOnClickOutside={closeOnClickOutside}
-    >
+    <PortalImpl onClose={onClose} title={title} closeOnClickOutside={closeOnClickOutside}>
       {children}
     </PortalImpl>,
     document.body
@@ -121,6 +108,7 @@ const Wrapper = styled.div`
   flex-shrink: 1px;
   z-index: 100;
   font-family: inherit;
+  font-family: Helvetica, sans-serif;
 
   .modal {
     padding: 20px;
