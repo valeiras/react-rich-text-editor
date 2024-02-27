@@ -216,6 +216,7 @@ const Wrapper = styled.div<propsType>`
     cursor: pointer;
     font-weight: 600;
     color: purple;
+    pointer-events: none;
   }
 
   .rich-editor-embed-block {
