@@ -1,6 +1,6 @@
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { $getSelection, $isRangeSelection } from 'lexical';
-import { $patchStyleText } from '@lexical/selection';
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { $getSelection, $isRangeSelection } from "lexical";
+import { $patchStyleText } from "@lexical/selection";
 
 const StyleDropDown = ({
   currValue,
@@ -28,7 +28,8 @@ const StyleDropDown = ({
       className="rich-editor-select narrow-select"
       value={currValue}
       onChange={(evt) => {
-        setSelectionPropertyValue(evt.target.value);
+        if (evt.target.value === "Fuente por defecto") setSelectionPropertyValue("");
+        else setSelectionPropertyValue(evt.target.value);
       }}
     >
       {availableValues.map((value) => {
