@@ -9,6 +9,7 @@ import { BiSolidEditAlt } from "react-icons/bi";
 import { HiCheck } from "react-icons/hi";
 
 import { LOW_PRIORITY } from "../utils/constants";
+import { LinkNode } from "@lexical/link";
 
 const positionEditorElement = (editor: HTMLElement, rect: DOMRect | null) => {
   if (rect === null) {
@@ -45,7 +46,7 @@ const FloatingLinkEditor = ({
       if ($isLinkNode(parent)) {
         setLinkUrl(parent.getURL());
       } else if ($isLinkNode(node)) {
-        setLinkUrl(node.getURL());
+        setLinkUrl((node as LinkNode).getURL());
       } else {
         setIsEditMode(false);
         setLinkUrl("");
@@ -214,6 +215,20 @@ const Wrapper = styled.div`
   border-radius: var(--border-radius);
   transition: opacity 0.5s;
   padding: 0.5rem 0.75rem;
+  font-family: Helvetica, sans-serif;
+
+  .toolbar-btn {
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    background-color: transparent;
+    font-weight: 400;
+    font-size: 1.2rem;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2rem;
+  }
 
   .link-input-container {
     display: flex;
@@ -225,6 +240,7 @@ const Wrapper = styled.div`
     border-radius: 1rem;
     background-color: var(--dark-grey);
     height: 2.5rem;
+    overflow: hidden;
   }
 
   .link,

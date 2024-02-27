@@ -15,7 +15,7 @@ const Wrapper = styled.div<{ $editorPadding: string }>`
   line-height: 1.5;
   font-weight: 400;
 
-  --editor-padding: ${(props) => props.$editorPadding};
+  --editor-padding: ${(props: { $editorPadding: string }) => props.$editorPadding};
   --toolbar-height: 2.2rem;
   --default-padding: 0.3rem;
 
@@ -37,6 +37,7 @@ const Wrapper = styled.div<{ $editorPadding: string }>`
   iframe {
     width: 360px;
     height: 202px;
+    pointer-events: none;
   }
 
   @media screen and (min-width: 992px) {

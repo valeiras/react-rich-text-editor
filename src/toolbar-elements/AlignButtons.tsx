@@ -54,7 +54,7 @@ const AlignButtons = ({ elementFormat }: { elementFormat: ElementFormatType }): 
         for (const node of nodes) {
           if ($isDecoratorBlockNode(node)) {
             const self = node.getWritable();
-            self.__format = "left";
+            self.__format = "";
           } else {
             const element = $getNearestBlockElementAncestorOrThrow(node);
             const self = element.getWritable();

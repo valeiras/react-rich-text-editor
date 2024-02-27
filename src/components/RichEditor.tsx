@@ -136,11 +136,12 @@ const RichEditor = ({
 };
 export default RichEditor;
 
-const Wrapper = styled.div<{ $width: string; $height: string }>`
+type propsType = { $width: string; $height: string };
+const Wrapper = styled.div<propsType>`
   border-radius: var(--border-radius);
   border: var(--default-border);
-  width: ${(props) => props.$width};
-  height: ${(props) => props.$height};
+  width: ${(props: propsType) => props.$width};
+  height: ${(props: propsType) => props.$height};
   overflow: hidden;
   resize: both;
   position: static;
@@ -218,9 +219,7 @@ const Wrapper = styled.div<{ $width: string; $height: string }>`
   }
 
   .rich-editor-embed-block {
-    user-select: none;
-    /* height: fit-content; */
-    padding: 7px;
+    padding-top: 7px;
     padding-bottom: 0;
   }
 

@@ -32,6 +32,7 @@ import getSelectedNode from "../utils/getSelectedNode";
 import { LOW_PRIORITY } from "../utils/constants";
 import EmbedButtons from "../toolbar-elements/EmbedButtons";
 import AlignButtons from "../toolbar-elements/AlignButtons";
+import { $isDecoratorBlockNode } from "@lexical/react/LexicalDecoratorBlockNode";
 
 const ToolbarPlugin = (): JSX.Element => {
   const [editor] = useLexicalComposerContext();
@@ -85,11 +86,14 @@ const ToolbarPlugin = (): JSX.Element => {
 
       // Update text align
       setElementFormat(($isElementNode(node) ? node.getFormatType() : parent?.getFormatType()) || "start");
-    }
-    if ($isNodeSelection(selection)) {
+    } else if ($isNodeSelection(selection)) {
       const node = selection.getNodes()[0];
-      const element = $getNearestBlockElementAncestorOrThrow(node);
-      setElementFormat(element.getFormatType() || "start");
+      if ($isDecoratorBlockNode(node)) {
+        setElementFormat(node.exportJSON().format || "start");
+      } else {
+        const element = $getNearestBlockElementAncestorOrThrow(node);
+        setElementFormat(element.getFormatType() || "start");
+      }
     }
   }, [editor]);
 
