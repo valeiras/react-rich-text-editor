@@ -1,35 +1,24 @@
-import styled from 'styled-components';
-import {
-  LexicalEditor,
-  RangeSelection,
-  GridSelection,
-  NodeSelection,
-} from 'lexical';
-import { useRef, useState, useCallback, useEffect } from 'react';
-import {
-  $getSelection,
-  $isRangeSelection,
-  SELECTION_CHANGE_COMMAND,
-} from 'lexical';
-import { mergeRegister } from '@lexical/utils';
-import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
-import getSelectedNode from '../utils/getSelectedNode';
-import { BiSolidEditAlt } from 'react-icons/bi';
-import { HiCheck } from 'react-icons/hi';
+import styled from "styled-components";
+import { LexicalEditor, RangeSelection, NodeSelection } from "lexical";
+import { useRef, useState, useCallback, useEffect } from "react";
+import { $getSelection, $isRangeSelection, SELECTION_CHANGE_COMMAND } from "lexical";
+import { mergeRegister } from "@lexical/utils";
+import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
+import getSelectedNode from "../utils/getSelectedNode";
+import { BiSolidEditAlt } from "react-icons/bi";
+import { HiCheck } from "react-icons/hi";
 
-import { LOW_PRIORITY } from '../utils/constants';
+import { LOW_PRIORITY } from "../utils/constants";
 
 const positionEditorElement = (editor: HTMLElement, rect: DOMRect | null) => {
   if (rect === null) {
-    editor.style.opacity = '0';
-    editor.style.top = '-1000px';
-    editor.style.left = '-1000px';
+    editor.style.opacity = "0";
+    editor.style.top = "-1000px";
+    editor.style.left = "-1000px";
   } else {
-    editor.style.opacity = '1';
+    editor.style.opacity = "1";
     editor.style.top = `${rect.top + rect.height + window.scrollY + 10}px`;
-    editor.style.left = `${
-      rect.left + window.scrollX - editor.offsetWidth / 2 + rect.width / 2
-    }px`;
+    editor.style.left = `${rect.left + window.scrollX - editor.offsetWidth / 2 + rect.width / 2}px`;
   }
 };
 
@@ -44,11 +33,9 @@ const FloatingLinkEditor = ({
 }) => {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [linkUrl, setLinkUrl] = useState('');
+  const [linkUrl, setLinkUrl] = useState("");
   const [isTargetBlank, setIsTargetBlank] = useState(true);
-  const [lastSelection, setLastSelection] = useState<
-    RangeSelection | GridSelection | NodeSelection | null
-  >(null);
+  const [lastSelection, setLastSelection] = useState<RangeSelection | NodeSelection | null>(null);
 
   const updateLinkEditor = useCallback(() => {
     const selection = $getSelection();
@@ -61,7 +48,7 @@ const FloatingLinkEditor = ({
         setLinkUrl(node.getURL());
       } else {
         setIsEditMode(false);
-        setLinkUrl('');
+        setLinkUrl("");
       }
     }
     const editorElem = editorRef.current;
@@ -130,10 +117,10 @@ const FloatingLinkEditor = ({
 
   const insertLink = () => {
     if (lastSelection !== null) {
-      if (linkUrl !== '') {
+      if (linkUrl !== "") {
         editor.dispatchCommand(TOGGLE_LINK_COMMAND, {
           url: linkUrl,
-          target: isTargetBlank ? '_blank' : '',
+          target: isTargetBlank ? "_blank" : "",
         });
       }
     }
@@ -151,11 +138,11 @@ const FloatingLinkEditor = ({
               setLinkUrl(event.target.value);
             }}
             onKeyDown={(event) => {
-              if (event.key === 'Enter') {
+              if (event.key === "Enter") {
                 event.preventDefault();
                 insertLink();
                 setIsEditMode(false);
-              } else if (event.key === 'Escape') {
+              } else if (event.key === "Escape") {
                 event.preventDefault();
                 setIsEditMode(false);
               }
@@ -175,12 +162,7 @@ const FloatingLinkEditor = ({
       ) : (
         <>
           <div className="link-input-container">
-            <a
-              href={linkUrl}
-              className="link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={linkUrl} className="link" target="_blank" rel="noopener noreferrer">
               {linkUrl}
             </a>
             <button
@@ -207,9 +189,7 @@ const FloatingLinkEditor = ({
         />
         <label
           htmlFor="target-blank-checkbox"
-          className={
-            isEditMode ? 'target-blank-label' : 'target-blank-label disabled'
-          }
+          className={isEditMode ? "target-blank-label" : "target-blank-label disabled"}
         >
           Se abre en una nueva pestaña
         </label>
