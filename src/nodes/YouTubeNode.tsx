@@ -36,8 +36,6 @@ function YouTubeComponent({ className, format, nodeKey, videoID }: YouTubeCompon
   return (
     <BlockWithAlignableContents className={className} format={format} nodeKey={nodeKey}>
       <iframe
-        // width="560"
-        // height="315"
         src={`https://www.youtube-nocookie.com/embed/${videoID}`}
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

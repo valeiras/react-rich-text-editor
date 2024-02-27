@@ -1,21 +1,21 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { useEffect, useCallback, useState } from 'react';
-import { $getNearestNodeOfType } from '@lexical/utils';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { useEffect, useCallback, useState } from "react";
+import { $getNearestNodeOfType } from "@lexical/utils";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
   $getSelection,
   $isElementNode,
+  $isNodeSelection,
   $isRangeSelection,
   ElementFormatType,
   SELECTION_CHANGE_COMMAND,
-} from 'lexical';
-import { $isLinkNode } from '@lexical/link';
-import { $getSelectionStyleValueForProperty } from '@lexical/selection';
-import { $isListNode, ListNode } from '@lexical/list';
-import { $isHeadingNode } from '@lexical/rich-text';
-import { mergeRegister } from '@lexical/utils';
-
+} from "lexical";
+import { $isLinkNode } from "@lexical/link";
+import { $getSelectionStyleValueForProperty } from "@lexical/selection";
+import { $isListNode, ListNode } from "@lexical/list";
+import { $isHeadingNode } from "@lexical/rich-text";
+import { mergeRegister, $getNearestBlockElementAncestorOrThrow } from "@lexical/utils";
 import {
   HeadingTypeDropDown,
   InsertListButtons,
@@ -26,35 +26,33 @@ import {
   TextColorPicker,
   InsertLinkButton,
   InsertImageButton,
-} from '../toolbar-elements';
+} from "../toolbar-elements";
 
-import getSelectedNode from '../utils/getSelectedNode';
-import { LOW_PRIORITY } from '../utils/constants';
-import EmbedButtons from '../toolbar-elements/EmbedButtons';
-import AlignButtons from '../toolbar-elements/AlignButtons';
+import getSelectedNode from "../utils/getSelectedNode";
+import { LOW_PRIORITY } from "../utils/constants";
+import EmbedButtons from "../toolbar-elements/EmbedButtons";
+import AlignButtons from "../toolbar-elements/AlignButtons";
+import { $isDecoratorBlockNode } from "@lexical/react/LexicalDecoratorBlockNode";
 
 const ToolbarPlugin = (): JSX.Element => {
   const [editor] = useLexicalComposerContext();
-  const [blockType, setBlockType] = useState('paragraph');
+  const [blockType, setBlockType] = useState("paragraph");
   const [isBold, setIsBold] = useState(false);
   const [isLink, setIsLink] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
   const [isStrikethrough, setIsStrikethrough] = useState(false);
-  const [fontSize, setFontSize] = useState('1,0rem');
-  const [fontFamily, setFontFamily] = useState('Arial');
-  const [elementFormat, setElementFormat] = useState<ElementFormatType>('left');
-  const [fontColor, setFontColor] = useState<string>('#000000');
-  const [bgColor, setBgColor] = useState<string>('#ffffff');
+  const [fontSize, setFontSize] = useState("1,0rem");
+  const [fontFamily, setFontFamily] = useState("Arial");
+  const [elementFormat, setElementFormat] = useState<ElementFormatType>("start");
+  const [fontColor, setFontColor] = useState<string>("#000000");
+  const [bgColor, setBgColor] = useState<string>("#ffffff");
 
   const updateToolbar = useCallback(() => {
     const selection = $getSelection();
     if ($isRangeSelection(selection)) {
       const anchorNode = selection.anchor.getNode();
-      const element =
-        anchorNode.getKey() === 'root'
-          ? anchorNode
-          : anchorNode.getTopLevelElementOrThrow();
+      const element = anchorNode.getKey() === "root" ? anchorNode : anchorNode.getTopLevelElementOrThrow();
       const elementKey = element.getKey();
       const elementDOM = editor.getElementByKey(elementKey);
       if (elementDOM !== null) {
@@ -63,33 +61,19 @@ const ToolbarPlugin = (): JSX.Element => {
           const type = parentList ? parentList.getTag() : element.getTag();
           setBlockType(type);
         } else {
-          const type = $isHeadingNode(element)
-            ? element.getTag()
-            : element.getType();
+          const type = $isHeadingNode(element) ? element.getTag() : element.getType();
           setBlockType(type);
         }
       }
       // Update text format
-      setIsBold(selection.hasFormat('bold'));
-      setIsItalic(selection.hasFormat('italic'));
-      setIsUnderline(selection.hasFormat('underline'));
-      setIsStrikethrough(selection.hasFormat('strikethrough'));
-      setFontSize(
-        $getSelectionStyleValueForProperty(selection, 'font-size', '1.0 rem')
-      );
-      setFontFamily(
-        $getSelectionStyleValueForProperty(selection, 'font-family', 'Arial')
-      );
-      setFontColor(
-        $getSelectionStyleValueForProperty(selection, 'color', '#000000')
-      );
-      setBgColor(
-        $getSelectionStyleValueForProperty(
-          selection,
-          'background-color',
-          '#ffffff'
-        )
-      );
+      setIsBold(selection.hasFormat("bold"));
+      setIsItalic(selection.hasFormat("italic"));
+      setIsUnderline(selection.hasFormat("underline"));
+      setIsStrikethrough(selection.hasFormat("strikethrough"));
+      setFontSize($getSelectionStyleValueForProperty(selection, "font-size", "1.0 rem"));
+      setFontFamily($getSelectionStyleValueForProperty(selection, "font-family", "Arial"));
+      setFontColor($getSelectionStyleValueForProperty(selection, "color", "#000000"));
+      setBgColor($getSelectionStyleValueForProperty(selection, "background-color", "#ffffff"));
 
       // Update links
       const node = getSelectedNode(selection);
@@ -100,13 +84,17 @@ const ToolbarPlugin = (): JSX.Element => {
         setIsLink(false);
       }
 
-      // console.log(node);
       // Update text align
-      setElementFormat(
-        ($isElementNode(node)
-          ? node.getFormatType()
-          : parent?.getFormatType()) || 'left'
-      );
+      setElementFormat(($isElementNode(node) ? node.getFormatType() : parent?.getFormatType()) || "start");
+    }
+    if ($isNodeSelection(selection)) {
+      const node = selection.getNodes()[0];
+      if ($isDecoratorBlockNode(node)) {
+        setElementFormat(node.getFormatType() || "start");
+      } else {
+        const element = $getNearestBlockElementAncestorOrThrow(node);
+        setElementFormat(element.getFormatType() || "start");
+      }
     }
   }, [editor]);
 
