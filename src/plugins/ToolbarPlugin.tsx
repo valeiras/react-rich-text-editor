@@ -42,7 +42,7 @@ const ToolbarPlugin = (): JSX.Element => {
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
   const [isStrikethrough, setIsStrikethrough] = useState(false);
-  const [fontSize, setFontSize] = useState("1,0rem");
+  const [fontSize, setFontSize] = useState("1.0rem");
   const [fontFamily, setFontFamily] = useState("Arial");
   const [elementFormat, setElementFormat] = useState<ElementFormatType>("start");
   const [fontColor, setFontColor] = useState<string>("#000000");
@@ -70,7 +70,7 @@ const ToolbarPlugin = (): JSX.Element => {
       setIsItalic(selection.hasFormat("italic"));
       setIsUnderline(selection.hasFormat("underline"));
       setIsStrikethrough(selection.hasFormat("strikethrough"));
-      setFontSize($getSelectionStyleValueForProperty(selection, "font-size", "1.0 rem"));
+      setFontSize($getSelectionStyleValueForProperty(selection, "font-size", "1.0rem"));
       setFontFamily($getSelectionStyleValueForProperty(selection, "font-family", "Arial"));
       setFontColor($getSelectionStyleValueForProperty(selection, "color", "#000000"));
       setBgColor($getSelectionStyleValueForProperty(selection, "background-color", "#ffffff"));
